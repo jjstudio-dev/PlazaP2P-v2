@@ -1,0 +1,819 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlazaP2P — Directorio de Economía Circular Bitcoin</title>
+  <meta name="description" content="PlazaP2P: directorio P2P de negocios, servicios y comunidades que practican economía circular con Bitcoin. España. Sin intermediarios, sin comisiones.">
+  <meta property="og:title" content="PlazaP2P — Economía Circular Bitcoin">
+  <meta property="og:description" content="Directorio P2P de servicios y negocios que aceptan Bitcoin. Únete a la red.">
+  <meta name="theme-color" content="#00d4ff">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="PlazaP2P RSS" href="/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="logo-block">
+      <div class="logo-title">PLAZA<span class="accent">P2P</span></div>
+      <div class="logo-sub">Economía Circular · Bitcoin · Sin Intermediarios</div>
+    </div>
+    <button class="btn-donar" onclick="openDonarModal()" title="Apoyar el proyecto">♥</button>
+    <button class="btn-lang" id="lang-toggle" onclick="toggleLang()" title="Cambiar idioma / Switch language">EN</button>
+    <a class="btn-alta" style="margin-left:auto"
+       href="submit.html"
+       target="_blank" rel="noopener">
+      <span data-i18n="btn.addnode">⊕ AÑADIR NODO</span>
+    </a>
+  </div>
+</header>
+
+<!-- ══ HERO ════════════════════════════════════════════════ -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="hero-eyebrow" data-i18n="hero.eyebrow">// RED P2P · BITCOIN · ESPAÑA //</div>
+    <h1 class="hero-title">
+      <span class="hero-lead" data-i18n="hero.lead">La plaza de la</span>
+      <span class="hero-main" data-i18n="hero.main">economía circular</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero.sub">
+      Servicios reales. Personas reales. Sin intermediarios.
+    </p>
+
+    <div class="hero-search-wrap">
+      <svg class="hero-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M13 13L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input
+        id="hero-search"
+        class="hero-search"
+        type="text"
+        placeholder="Buscar nodo, servicio, ciudad..."
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="hero-stats" id="hero-stats">
+      <span class="hs-val" id="stat-nodos">—</span> nodos ·
+      <span class="hs-val" id="stat-eventos">—</span> eventos ·
+      <span class="hs-val" id="stat-paises">—</span> comunidades
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn-primary"
+         href="submit.html"
+         target="_blank" rel="noopener">
+        ₿ Añadir mi nodo
+      </a>
+      <button class="btn-secondary" onclick="scrollToNav()">
+        Explorar directorio →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DESTACADOS STRIP ═══════════════════════════════════ -->
+<div class="destacados-strip" id="destacados-strip" style="display:none">
+  <div class="container">
+    <div class="destacados-label">★ SELECCIÓN DEL MANTENEDOR</div>
+    <div class="destacados-row" id="destacados-row"></div>
+  </div>
+</div>
+
+<!-- ══ RECIÉN AÑADIDO ════════════════════════════════════ -->
+<div class="recientes-strip" id="recientes-strip" style="display:none">
+  <div class="container">
+    <div class="recientes-label">// RECIÉN AÑADIDO</div>
+    <div class="recientes-row" id="recientes-row"></div>
+  </div>
+</div>
+
+<!-- ══ NAV ═════════════════════════════════════════════════ -->
+<nav class="main-nav" id="main-nav">
+  <div class="nav-inner">
+    <button class="nav-tab active" data-tab="directorio">
+      <span class="tab-icon">◉</span><span data-i18n="nav.directorio">Directorio</span>
+      <span class="tab-count" data-count-for="directorio">0</span>
+    </button>
+    <button class="nav-tab" data-tab="eventos">
+      <span class="tab-icon">◈</span><span data-i18n="nav.eventos">Eventos</span>
+      <span class="tab-count" data-count-for="eventos">0</span>
+    </button>
+    <button class="nav-tab" data-tab="aprende">
+      <span class="tab-icon">◇</span><span data-i18n="nav.aprende">Aprende</span>
+      <span class="tab-count" data-count-for="aprende">0</span>
+    </button>
+    <button class="nav-tab" data-tab="comunidades">
+      <span class="tab-icon">◆</span><span data-i18n="nav.comunidades">Comunidades</span>
+      <span class="tab-count" data-count-for="comunidades">0</span>
+    </button>
+    <button class="nav-tab" data-tab="anuncios">
+      <span class="tab-icon">▸</span><span data-i18n="nav.anuncios">Tablón</span>
+      <span class="tab-count" data-count-for="anuncios">0</span>
+    </button>
+    <button class="nav-tab" data-tab="multimedia">
+      <span class="tab-icon">▶</span><span data-i18n="nav.multimedia">Multimedia</span>
+      <span class="tab-count" data-count-for="multimedia">0</span>
+    </button>
+    <button class="nav-tab" data-tab="herramientas">
+      <span class="tab-icon">🔧</span><span data-i18n="nav.herramientas">Herramientas</span>
+      <span class="tab-count" data-count-for="herramientas">0</span>
+    </button>
+    <button class="nav-tab" data-tab="mapa">
+      <span class="tab-icon">◉</span><span data-i18n="nav.mapa">Mapa</span>
+      <span class="tab-count" data-count-for="mapa">0</span>
+    </button>
+    <button class="nav-tab" data-tab="nostr">
+      <span class="tab-icon">⚡</span><span data-i18n="nav.nostr">Nostr</span>
+      <span class="tab-count" data-count-for="nostr">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MAIN ═════════════════════════════════════════════════ -->
+<main class="container">
+
+  <!-- ─── DIRECTORIO ─── -->
+  <div class="section-panel active" id="panel-directorio">
+    <div class="section-header">
+      <h2 class="section-title text-cyan"><span class="icon">◉</span> Directorio de Nodos</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ AÑADIR NODO</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar por nombre, servicio, tag...">
+      <select class="filter-select" data-filter="pais">
+        <option value="">— País —</option>
+        <option>España</option><option>México</option><option>Argentina</option>
+        <option>Colombia</option><option>Venezuela</option><option>Chile</option>
+        <option value="online">Solo Online</option>
+      </select>
+      <select class="filter-select" data-filter="categoria">
+        <option value="">— Categoría —</option>
+        <option value="tech">Tech</option><option value="diseño">Diseño</option>
+        <option value="legal">Legal</option><option value="salud">Salud</option>
+        <option value="educacion">Educación</option><option value="alimentacion">Alimentación</option>
+        <option value="arte">Arte</option><option value="finanzas">Finanzas</option>
+        <option value="construccion">Construcción</option><option value="logistica">Logística</option>
+        <option value="hosteleria">Hostelería</option><option value="marketing">Marketing</option>
+      </select>
+      <select class="filter-select" data-filter="tipo">
+        <option value="">— Tipo —</option>
+        <option value="ofrezco">Ofrezco</option>
+        <option value="busco">Busco</option>
+        <option value="ambos">Ambos</option>
+      </select>
+      <select class="filter-select" data-filter="crypto">
+        <option value="">— Forma de pago —</option>
+        <option value="bitcoin">Bitcoin</option><option value="lightning">Lightning</option>
+        <option value="ethereum">Ethereum</option><option value="usdt">USDT</option>
+        <option value="monero">Monero</option><option value="trueque">Trueque</option>
+      </select>
+      <select class="filter-select" data-filter="nostr">
+        <option value="">— Nostr —</option>
+        <option value="si">Solo con Nostr</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="nodos-grid"></div>
+  </div>
+
+  <!-- ─── EVENTOS ─── -->
+  <div class="section-panel" id="panel-eventos">
+    <div class="section-header">
+      <h2 class="section-title text-magenta"><span class="icon">📅</span> Eventos</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ PUBLICAR EVENTO</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar evento...">
+      <select class="filter-select" data-filter="pais">
+        <option value="">— País —</option>
+        <option>España</option><option>México</option><option>Argentina</option>
+        <option value="internacional">Internacional</option><option value="online">Online</option>
+      </select>
+      <select class="filter-select" data-filter="tipo">
+        <option value="">— Tipo —</option>
+        <option value="meetup">Meetup</option><option value="taller">Taller</option>
+        <option value="conferencia">Conferencia</option><option value="hackathon">Hackathon</option>
+        <option value="online">Online</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="eventos-grid"></div>
+  </div>
+
+  <!-- ─── APRENDE ─── -->
+  <div class="section-panel" id="panel-aprende">
+    <div class="section-header">
+      <h2 class="section-title text-yellow"><span class="icon">📚</span> Zona de Aprendizaje</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ PROPONER RECURSO</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar guía o recurso...">
+      <select class="filter-select" data-filter="nivel">
+        <option value="">— Nivel —</option>
+        <option value="principiante">Principiante</option>
+        <option value="intermedio">Intermedio</option>
+        <option value="avanzado">Avanzado</option>
+      </select>
+      <select class="filter-select" data-filter="categoria">
+        <option value="">— Categoría —</option>
+        <option value="bitcoin — fundamentos">Bitcoin · Fundamentos</option>
+        <option value="bitcoin — técnico">Bitcoin · Técnico</option>
+        <option value="economia circular">Economía circular</option>
+        <option value="privacidad">Privacidad</option>
+        <option value="economía">Economía</option>
+        <option value="legal">Legal / Fiscal</option>
+        <option value="herramientas">Herramientas</option>
+      </select>
+      <select class="filter-select" data-filter="idioma">
+        <option value="">— Idioma —</option>
+        <option value="español">Español</option>
+        <option value="english">English</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="guias-grid"></div>
+  </div>
+
+  <!-- ─── COMUNIDADES ─── -->
+  <div class="section-panel" id="panel-comunidades">
+    <div class="section-header">
+      <h2 class="section-title text-green"><span class="icon">🤝</span> Comunidades Colaboradoras</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ AÑADIR COMUNIDAD</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar comunidad...">
+      <select class="filter-select" data-filter="pais">
+        <option value="">— País —</option>
+        <option>España</option><option>México</option><option>Argentina</option>
+        <option value="latinoamérica">Latinoamérica</option>
+        <option value="internacional">Internacional</option>
+      </select>
+      <select class="filter-select" data-filter="plataforma">
+        <option value="">— Plataforma —</option>
+        <option>Telegram</option><option>Discord</option>
+        <option>Nostr</option><option>Matrix</option><option value="web">Web</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="comunidades-grid"></div>
+  </div>
+
+  <!-- ─── ANUNCIOS ─── -->
+  <div class="section-panel" id="panel-anuncios">
+    <div class="section-header">
+      <h2 class="section-title" style="color:var(--orange)"><span class="icon">📢</span> Tablón de Anuncios</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ PUBLICAR ANUNCIO</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar anuncio...">
+      <select class="filter-select" data-filter="tipo">
+        <option value="">— Tipo —</option>
+        <option value="busco colaborador">Busco colaborador</option>
+        <option value="ofrezco trabajo">Ofrezco trabajo</option>
+        <option value="vendo">Vendo</option><option value="compro">Compro</option>
+        <option value="intercambio">Intercambio</option>
+        <option value="donación">Donación</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="anuncios-grid"></div>
+  </div>
+
+  <!-- ─── MULTIMEDIA ─── -->
+  <div class="section-panel" id="panel-multimedia">
+    <div class="section-header">
+      <h2 class="section-title text-magenta"><span class="icon">▶</span> Multimedia</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ AÑADIR</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar canal, podcast...">
+      <select class="filter-select" data-filter="tipo">
+        <option value="">— Tipo —</option>
+        <option value="youtube">YouTube</option>
+        <option value="podcast">Podcast</option>
+        <option value="newsletter">Newsletter</option>
+        <option value="blog">Blog</option>
+        <option value="livestream">Livestream</option>
+      </select>
+      <select class="filter-select" data-filter="idioma">
+        <option value="">— Idioma —</option>
+        <option value="español">Español</option>
+        <option value="english">English</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="multimedia-grid"></div>
+  </div>
+
+  <!-- ─── HERRAMIENTAS ─── -->
+  <div class="section-panel" id="panel-herramientas">
+    <div class="section-header">
+      <h2 class="section-title text-cyan"><span class="icon">🔧</span> Herramientas</h2>
+      <a class="btn-alta" href="submit.html" target="_blank" rel="noopener">⊕ AÑADIR</a>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar herramienta...">
+      <select class="filter-select" data-filter="tipo">
+        <option value="">— Categoría —</option>
+        <option value="Exchange">Exchange</option>
+        <option value="Aggregator">Aggregator</option>
+        <option value="P2P">P2P</option>
+        <option value="Indie exchange">Indie Exchange</option>
+        <option value="DEX">DEX</option>
+        <option value="ATM">ATM</option>
+        <option value="Marketplace">Marketplace</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Tool">Tool</option>
+        <option value="OS &amp; Live USB">OS &amp; Live USB</option>
+        <option value="Encryption">Encryption</option>
+        <option value="Browser">Browser</option>
+        <option value="Password Manager">Password Manager</option>
+        <option value="Messaging">Messaging</option>
+        <option value="VPN">VPN</option>
+        <option value="Hosting">Hosting</option>
+        <option value="VPS">VPS</option>
+        <option value="Domains">Domains</option>
+        <option value="Email">Email</option>
+        <option value="Email alias">Email Alias</option>
+        <option value="SMS">SMS</option>
+        <option value="e-SIM">e-SIM</option>
+        <option value="Cards">Cards</option>
+        <option value="Gift cards">Gift Cards</option>
+        <option value="AI">AI</option>
+        <option value="Proxy store">Proxy Store</option>
+        <option value="Utilities">Utilities</option>
+        <option value="Other services">Other Services</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="az">A → Z</option>
+        <option value="reciente">Más reciente</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div id="herramientas-grid"></div>
+  </div>
+
+  <!-- ─── NOSTR ─── -->
+  <div class="section-panel" id="panel-nostr">
+    <div class="section-header">
+      <h2 class="section-title" style="color:#bf5af2"><span class="icon">⚡</span> Zona de Nostr</h2>
+    </div>
+    <div class="filters-bar">
+      <span class="filter-label">// FILTRAR</span>
+      <input class="filter-input" data-filter="search" type="text" placeholder="Buscar cliente, relay...">
+      <select class="filter-select" data-filter="tipo">
+        <option value="">— Tipo —</option>
+        <option value="cliente">Cliente</option>
+        <option value="relay">Relay</option>
+        <option value="herramienta">Herramienta</option>
+        <option value="red social">Red Social</option>
+      </select>
+      <select class="filter-select" data-filter="plataforma">
+        <option value="">— Plataforma —</option>
+        <option value="web">Web</option>
+        <option value="ios">iOS</option>
+        <option value="android">Android</option>
+        <option value="desktop">Desktop</option>
+        <option value="extension">Extension</option>
+      </select>
+      <select class="filter-select" data-filter="orden">
+        <option value="reciente">Más reciente</option>
+        <option value="az">A → Z</option>
+      </select>
+      <button class="btn-clear-filters">✕</button>
+    </div>
+    <div class="cards-grid" id="nostr-grid"></div>
+  </div>
+
+  <!-- ─── MAPA ─── -->
+  <div class="section-panel" id="panel-mapa">
+    <div class="section-header">
+      <h2 class="section-title text-cyan"><span class="icon">◉</span> Mapa de Nodos</h2>
+    </div>
+    <div id="mapa-leaflet" style="height:480px;border:1px solid var(--border);border-radius:6px"></div>
+    <p style="font-size:11px;color:var(--t-3);margin-top:8px">Solo se muestran nodos con ciudad reconocida · © OpenStreetMap contributors</p>
+  </div>
+
+  <!-- ─── CÓMO UNIRSE ─── -->
+  <div class="section-panel" id="panel-como">
+    <div class="section-header">
+      <h2 class="section-title text-cyan"><span class="icon">⊕</span> Cómo unirse al directorio</h2>
+    </div>
+
+    <div class="how-section">
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-title">Elige tu plantilla</div>
+          <p class="step-desc">Tenemos plantillas para negocios, eventos, guías, comunidades y anuncios. Cada una con los campos exactos que necesitas.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-title">Rellena el Issue</div>
+          <p class="step-desc">GitHub muestra el formulario visual. No necesitas saber programar. Solo rellena los campos y envía. Necesitas cuenta GitHub (gratis).</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-title">Revisión humana</div>
+          <p class="step-desc">Un maintainer verifica que la información es correcta y no contiene contenido prohibido. El proceso dura 24-48 horas.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-title">Publicado automáticamente</div>
+          <p class="step-desc">Al aprobar, un robot actualiza el directorio sin intervención manual. Tu nodo aparece en segundos y recibes confirmación.</p>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <a class="btn-primary" href="submit.html" target="_blank" rel="noopener">◉ AÑADIR NEGOCIO / SERVICIO</a>
+        <a class="btn-secondary" href="submit.html" target="_blank" rel="noopener">📅 PUBLICAR EVENTO</a>
+        <a class="btn-secondary" href="submit.html" target="_blank" rel="noopener">📚 PROPONER GUÍA</a>
+        <a class="btn-secondary" href="submit.html" target="_blank" rel="noopener">🤝 AÑADIR COMUNIDAD</a>
+        <a class="btn-secondary" href="submit.html" target="_blank" rel="noopener">📢 PUBLICAR ANUNCIO</a>
+      </div>
+    </div>
+
+    <!-- Actualizar / eliminar -->
+    <div class="info-box" style="margin-top:20px">
+      <div class="info-box-title">¿Quieres actualizar o eliminar tu nodo?</div>
+      <p>Abre un Issue con el título <code>[ACTUALIZAR] Tu nombre</code> o <code>[ELIMINAR] Tu nombre</code> indicando qué cambios quieres hacer. El maintainer lo procesa en 24-48h.</p>
+    </div>
+  </div>
+
+  <!-- ─── FAQ LEGAL ─── -->
+  <div class="section-panel" id="panel-faq">
+    <div class="section-header">
+      <h2 class="section-title text-magenta"><span class="icon">⁉</span> Preguntas Frecuentes y Aviso Legal</h2>
+    </div>
+
+    <!-- AVISO DESTACADO -->
+    <div class="legal-banner">
+      <div class="legal-banner-icon">⚠</div>
+      <div>
+        <strong>PlazaP2P es únicamente un directorio de contactos.</strong><br>
+        No somos intermediarios, no gestionamos pagos, no verificamos identidades y no garantizamos ninguna transacción. Cualquier acuerdo entre partes es responsabilidad exclusiva de dichas partes.
+      </div>
+    </div>
+
+    <div class="faq-grid">
+
+      <!-- BLOQUE: Qué es -->
+      <div class="faq-block">
+        <div class="faq-block-title text-cyan">// ¿QUÉ ES PLAZAP2P?</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué es PlazaP2P?</div>
+          <div class="faq-a">PlazaP2P es un directorio público de personas, negocios y servicios que practican la economía circular con Bitcoin. Funciona como unas "páginas amarillas" descentralizadas: conecta a quienes aceptan Bitcoin, Lightning Network o hacen trueque directo.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Es una empresa o plataforma de pagos?</div>
+          <div class="faq-a">No. PlazaP2P no es una empresa, no procesa pagos, no custodia fondos, no actúa como intermediario y no tiene personalidad jurídica. Es un archivo de datos públicos alojado en GitHub Pages. No existe relación comercial entre PlazaP2P y los listados del directorio.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Quién mantiene el proyecto?</div>
+          <div class="faq-a">PlazaP2P es un proyecto open source sin propietario personal. El código y los datos son públicos, alojados en GitHub y auditables por cualquiera. Cualquier persona puede contribuir mediante Pull Request.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Es gratuito?</div>
+          <div class="faq-a">Sí, completamente gratuito. Ni el directorio cobra comisión ni cuota. Los costes de hosting son cero (GitHub Pages). No hay modelo de negocio ni publicidad. El proyecto se sostiene por voluntad de la comunidad. Se aceptan donaciones en Bitcoin/Lightning voluntarias.</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE: Contenido prohibido -->
+      <div class="faq-block">
+        <div class="faq-block-title" style="color:var(--magenta)">// CONTENIDO PROHIBIDO</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué tipo de contenido no se permite?</div>
+          <div class="faq-a">
+            Se rechazará y eliminará cualquier listado que incluya o promueva:
+            <ul class="faq-list">
+              <li>Actividades ilegales de cualquier tipo (tráfico de sustancias, armas, personas, etc.)</li>
+              <li>Estafas, esquemas Ponzi o promesas de rentabilidad garantizada</li>
+              <li>Contenido sexual, violento o que afecte a menores</li>
+              <li>Suplantación de identidad o datos falsos deliberados</li>
+              <li>Spam, publicidad encubierta o entradas duplicadas masivas</li>
+              <li>Cualquier actividad contraria a la legislación vigente en el país del listado</li>
+              <li>Servicios de mezclado (mixing) o lavado de activos</li>
+              <li>Mercados negros o actividades en la dark web</li>
+            </ul>
+            Los infractores serán bloqueados permanentemente y el Issue reportado a GitHub.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Está prohibido el trading o la inversión?</div>
+          <div class="faq-a">No está prohibido listar servicios legales de consultoría financiera o de trading, siempre que el proveedor cumpla la normativa aplicable en su jurisdicción. PlazaP2P no valida licencias ni habilitaciones profesionales. El usuario debe verificar por su cuenta.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Se permiten exchanges o servicios de compra-venta de Bitcoin?</div>
+          <div class="faq-a">Se permiten exchanges P2P (persona a persona) legales. No se permiten servicios que operen deliberadamente para eludir controles regulatorios. El maintainer evalúa caso a caso.</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE: Responsabilidad -->
+      <div class="faq-block">
+        <div class="faq-block-title" style="color:var(--yellow)">// EXCLUSIÓN DE RESPONSABILIDAD</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿PlazaP2P garantiza los servicios listados?</div>
+          <div class="faq-a"><strong>No.</strong> PlazaP2P es exclusivamente un directorio de contactos. No verificamos la identidad de los listados, no comprobamos licencias profesionales, no auditamos la calidad de los servicios y no intervenimos en ningún acuerdo o transacción entre partes. Haz siempre tu propia investigación antes de contratar cualquier servicio (DYOR).</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué hago si me estafan a través de un contacto del directorio?</div>
+          <div class="faq-a">PlazaP2P no tiene capacidad legal ni técnica para resolver disputas o recuperar fondos. Si has sido víctima de una estafa, debes contactar con las autoridades policiales de tu país. Puedes reportar el listado problemático abriendo un Issue con la etiqueta <code>[REPORTE]</code> para que sea eliminado del directorio.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Los datos del directorio son verídicos?</div>
+          <div class="faq-a">Los datos provienen de las propias personas o negocios que se han registrado. El maintainer hace una revisión básica de coherencia, pero no puede verificar en profundidad cada entrada. Cualquier información del directorio puede estar desactualizada o ser inexacta. Verifica siempre antes de hacer negocios.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿PlazaP2P es responsable del contenido de los sitios enlazados?</div>
+          <div class="faq-a">No. Los enlaces a webs externas no implican ningún tipo de respaldo, verificación ni responsabilidad por parte de PlazaP2P. El contenido de esos sitios puede cambiar sin previo aviso.</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE: Seguridad en meetups -->
+      <div class="faq-block">
+        <div class="faq-block-title" style="color:var(--orange)">// SEGURIDAD EN MEETUPS Y EVENTOS</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Es seguro asistir a los meetups del directorio?</div>
+          <div class="faq-a">Los eventos listados son organizados por comunidades independientes. PlazaP2P no organiza ni avala ningún evento. Antes de asistir, <strong>verifica la reputación del organizador</strong>: historial en Telegram, actividad pública, referencias de otros asistentes. El principio fundamental es <em>Don't trust, verify</em>.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué precauciones debo tomar en persona?</div>
+          <div class="faq-a">
+            Recomendaciones básicas de seguridad operacional (OpSec):
+            <ul class="faq-list">
+              <li><strong>No reveles cuántos BTC tienes</strong> — ni en meetups, ni en chats públicos del evento</li>
+              <li><strong>Separa identidades</strong> — evita vincular tu perfil online con tu presencia física si valoras la privacidad</li>
+              <li><strong>No compartas tu dirección</strong> ni ubicación habitual con desconocidos</li>
+              <li><strong>Discreción en temas sensibles</strong> — carteras, montos, custodias</li>
+              <li><strong>Confía en tus instintos</strong> — si algo no parece bien, no te quedes</li>
+              <li>Informa a alguien de confianza si vas solo a un primer evento</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cómo funciona la "doble identidad" en encuentros F2F?</div>
+          <div class="faq-a">
+            En entornos Bitcoin es habitual y completamente legítimo usar un alias o seudónimo en los meetups, especialmente cuando no conoces a los organizadores o asistentes. Esto protege tu identidad real y reduce riesgos:
+            <ul class="faq-list">
+              <li>Usa un alias diferente al de tus redes sociales habituales</li>
+              <li>Crea una cuenta de Telegram o Nostr exclusiva para eventos si lo consideras necesario</li>
+              <li>No vinculen tu wallet pública con tu nombre real en conversaciones de grupo</li>
+              <li>Puedes presentarte con un alias y construir reputación progresivamente a medida que conoces a la comunidad</li>
+              <li>Si alguien te presiona para que reveles tu identidad real, es una señal de alerta</li>
+            </ul>
+            La privacidad no es desconfianza — es prudencia básica en cualquier entorno donde se habla de dinero.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué riesgo tiene acudir a eventos de comunidades poco conocidas?</div>
+          <div class="faq-a">
+            Los eventos de comunidades nuevas o sin historial verificable tienen un nivel de riesgo mayor. Antes de asistir a un evento de reputación desconocida:
+            <ul class="faq-list">
+              <li>Busca referencias en Telegram, Twitter/X o Nostr sobre el organizador</li>
+              <li>Comprueba si la comunidad tiene historial de eventos previos y opiniones de asistentes</li>
+              <li>Desconfía de eventos que prometan rentabilidades, airdrops o "inversiones exclusivas"</li>
+              <li>Los eventos legítimos no necesitan que lleves fondos, wallets desbloqueadas ni dispositivos con acceso a tus BTC</li>
+              <li>Si el evento es de pago y la comunidad no tiene historial, investiga antes de pagar</li>
+              <li>Valora ir acompañado la primera vez a un lugar desconocido</li>
+            </ul>
+            <strong>Infórmate bien antes de asistir. La comunidad Bitcoin española es amplia y generalmente de confianza — pero como en cualquier espacio, existe el oportunismo.</strong>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué hago si detecto una amenaza o comportamiento sospechoso?</div>
+          <div class="faq-a">Reporta el evento o comunidad abriendo un Issue con la etiqueta <code>[REPORTE]</code>. Si la amenaza es grave (extorsión, amenazas físicas), contacta directamente con las autoridades policiales. PlazaP2P eliminará cualquier listado reportado con evidencia de actividad maliciosa.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿PlazaP2P es responsable de lo que ocurra en los meetups?</div>
+          <div class="faq-a"><strong>No.</strong> Los eventos son organizados de forma completamente independiente por las comunidades. PlazaP2P solo lista la información pública. Los autores, colaboradores y mantenedores del proyecto no se hacen responsables de ningún incidente derivado de la asistencia a eventos del directorio.</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE: Privacidad y datos -->
+      <div class="faq-block">
+        <div class="faq-block-title" style="color:var(--green)">// PRIVACIDAD Y DATOS</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué datos se almacenan?</div>
+          <div class="faq-a">Solo los datos que tú mismo proporcionas al rellenar el formulario de alta (Issue de GitHub). Estos datos son públicos en el repositorio de GitHub y en el directorio web. No almacenamos datos de navegación, cookies de seguimiento ni información personal adicional.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Puedo eliminar mis datos?</div>
+          <div class="faq-a">Sí. Abre un Issue con el título <code>[ELIMINAR] Tu nombre</code> desde la misma cuenta GitHub con la que te registraste, o incluye algún dato verificable. El maintainer eliminará tu entrada del JSON en 24-48h y los cambios se publicarán automáticamente.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Usáis cookies o rastreadores?</div>
+          <div class="faq-a">No. La web es 100% estática (HTML, CSS y JavaScript puro). No hay backend, no hay base de datos de usuarios, no hay cookies propias, no hay analytics de terceros. Los únicos datos que fluyen son los del repositorio público de GitHub.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cumple con el GDPR?</div>
+          <div class="faq-a">Los datos que aparecen en el directorio son los que cada persona ha decidido hacer públicos voluntariamente. Al enviar tu información mediante el formulario de GitHub, aceptas que sea pública. Puedes solicitar la eliminación en cualquier momento como se indica arriba.</div>
+        </div>
+      </div>
+
+      <!-- BLOQUE: Donaciones -->
+      <div class="faq-block faq-block-donar">
+        <div class="faq-block-title" style="color:var(--btc)">// ♥ APOYAR EL PROYECTO</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cómo puedo apoyar económicamente el proyecto?</div>
+          <div class="faq-a">PlazaP2P es gratuito, sin publicidad y open source. Si te resulta útil, puedes apoyar su mantenimiento con una donación voluntaria en Bitcoin o Lightning Network. No hay mínimo ni obligación.</div>
+        </div>
+
+        <div class="donation-addresses" id="faq-donation-addresses">
+          <!-- Populated by JS from data/mantenimiento.json -->
+        </div>
+
+        <button class="btn-donar-full" onclick="openDonarModal()">♥ Ver direcciones de donación</button>
+      </div>
+
+      <!-- BLOQUE: Uso y filosofía -->
+      <div class="faq-block">
+        <div class="faq-block-title text-cyan">// USO Y FILOSOFÍA</div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Por qué Bitcoin y economía circular?</div>
+          <div class="faq-a">Bitcoin permite transacciones directas entre personas sin necesidad de bancos o intermediarios. PlazaP2P nace para facilitar una economía circular donde el valor fluye entre personas directamente, usando dinero soberano, resistente a la censura y sin fronteras.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Puedo listar un servicio que también acepta euros?</div>
+          <div class="faq-a">Sí. El directorio es para quien acepta Bitcoin o hace trueque, pero no excluye que también se acepten euros. Simplemente marca la opción correspondiente en el formulario.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿El proyecto es open source?</div>
+          <div class="faq-a">Sí. Todo el código (HTML, CSS, JS, plantillas) es público en GitHub bajo licencia libre. Cualquiera puede hacer fork, mejorar el proyecto o montar su propia versión. Las contribuciones son bienvenidas mediante Pull Request.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cómo puedo apoyar el proyecto?</div>
+          <div class="faq-a">
+            <ul class="faq-list">
+              <li>Añadiendo tu nodo o negocio al directorio</li>
+              <li>Compartiendo el proyecto con personas afines</li>
+              <li>Contribuyendo código o mejoras en GitHub</li>
+              <li>Reportando entradas falsas o problemáticas</li>
+              <li>Donando en Bitcoin / Lightning al mantenedor</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /faq-grid -->
+
+    <!-- Disclaimer final -->
+    <div class="legal-footer-box">
+      <div class="legal-footer-title">AVISO LEGAL COMPLETO</div>
+      <p>
+        PlazaP2P es un directorio público de información proporcionada voluntariamente por terceros.
+        Es una iniciativa comunitaria sin personalidad jurídica, sin ánimo de lucro y sin estructura empresarial.
+        No es un intermediario financiero, no presta servicios de pago, no custodia activos digitales
+        y no está sujeto a ningún tipo de regulación financiera.
+      </p>
+      <p style="margin-top:10px">
+        Los autores, colaboradores, administradores, programadores y patrocinadores del proyecto
+        <strong>no se hacen responsables</strong> de ningún daño directo, indirecto, incidental o consecuente
+        derivado del uso del directorio, incluyendo pero no limitándose a: pérdidas económicas por transacciones
+        con listados del directorio, incidentes derivados de la asistencia a eventos o meetups, revelación
+        voluntaria de información personal por parte del usuario, o contenido desactualizado o inexacto.
+      </p>
+      <p style="margin-top:10px">
+        El contenido del directorio puede contener errores, estar desactualizado o ser inexacto.
+        <strong>Verifica siempre la información antes de realizar cualquier transacción. DYOR (Do Your Own Research).</strong>
+        Ante cualquier duda sobre la legitimidad de un contacto, aplica el principio Bitcoin: <em>Don't trust, verify</em>.
+      </p>
+      <p style="margin-top:10px">
+        Los datos personales que aparecen en el directorio han sido proporcionados y publicados voluntariamente
+        por sus titulares. Cualquier persona puede solicitar la eliminación de sus datos abriendo un Issue
+        con el título <code>[ELIMINAR]</code>. El proyecto no recopila cookies, no usa analytics y no vende datos.
+      </p>
+      <p style="margin-top:10px">
+        El uso del directorio implica la aceptación de estos términos.
+        Última actualización: Abril 2026.
+      </p>
+    </div>
+
+  </div><!-- /panel-faq -->
+
+</main>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">PLAZA<span>P2P</span></div>
+      <div class="footer-text">
+        Directorio P2P de economía circular Bitcoin en España.<br>
+        Open source · Sin intermediarios · Sin comisiones.
+      </div>
+      <div class="footer-links">
+        <a href="YOUR_GITHUB_REPO" target="_blank" rel="noopener">GitHub</a>
+        <span class="sep">·</span>
+        <a href="YOUR_GITHUB_REPO#cómo-funciona" target="_blank" rel="noopener">Cómo funciona</a>
+        <span class="sep">·</span>
+        <a href="YOUR_GITHUB_REPO#licencia" target="_blank" rel="noopener">FAQ Legal</a>
+        <span class="sep">·</span>
+        <button class="footer-btn-link" onclick="openDonarModal()">♥ Donar</button>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      Solo recopilación de contactos públicos.<br>
+      Verifica siempre antes de operar. DYOR.
+    </div>
+  </div>
+</footer>
+
+<!-- ══ MODAL ════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- ══ MODAL DONAR ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-donar-overlay" onclick="if(event.target===this)closeDonarModal()">
+  <div class="modal modal-donar" id="modal-donar-content">
+    <div class="modal-header">
+      <span class="modal-title">♥ Apoyar PlazaP2P</span>
+      <button class="modal-close" onclick="closeDonarModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="donar-mensaje" id="donar-mensaje"></p>
+
+      <div class="donar-addresses" id="donar-addresses">
+        <!-- Populated by JS -->
+      </div>
+
+      <p class="donar-gracias" id="donar-gracias"></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WPeE=" crossorigin=""></script>
+<script src="js/app.js"></script>
+</body>
+</html>

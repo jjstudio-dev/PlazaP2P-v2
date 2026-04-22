@@ -1,0 +1,253 @@
+﻿name: "📍 Nuevo Nodo — Directorio"
+description: "Registrar un negocio, servicio o perfil profesional en el directorio"
+title: "[NODO] Nombre del negocio o alias"
+labels: ["nodo", "pendiente-revision"]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        # Alta en el Directorio PlazaP2P
+        Completa lo que aplique a tu caso. Solo los campos marcados con * son obligatorios.
+        Tu entrada será revisada por el mantenedor antes de publicarse en el directorio.
+        **No necesitas saber programar. Solo rellena este formulario.**
+
+  - type: dropdown
+    id: tipo_entidad
+    attributes:
+      label: "Tipo de perfil *"
+      options:
+        - "Profesional / Freelancer"
+        - "Negocio físico (tienda, restaurante, taller...)"
+        - "Negocio online"
+        - "Proyecto / Startup / DAO"
+        - "ONG / Asociación"
+        - "Comunidad / Colectivo"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tipo_accion
+    attributes:
+      label: "¿Qué haces aquí? *"
+      options:
+        - "OFREZCO — vendo, doy o intercambio"
+        - "BUSCO — necesito algo, pago en Bitcoin o trueque"
+        - "AMBOS"
+    validations:
+      required: true
+
+  - type: input
+    id: nombre
+    attributes:
+      label: "Nombre del negocio o alias *"
+      placeholder: "Taller Bitcoin / 0xJuan / Restaurante El Nodo"
+    validations:
+      required: true
+
+  - type: textarea
+    id: presentacion
+    attributes:
+      label: "Presentación *"
+      description: "Cuéntanos quién eres o qué es tu negocio. 3-6 líneas."
+      placeholder: |
+        Somos un estudio de diseño fundado en 2019 especializado en identidad visual
+        para proyectos Bitcoin. Trabajamos con clientes de toda España
+        y Europa. Aceptamos Bitcoin y pagos en stablecoins.
+    validations:
+      required: true
+
+  - type: textarea
+    id: servicios
+    attributes:
+      label: "Servicios o productos que ofreces / buscas *"
+      description: "Lista concreta. Un servicio por línea con guión."
+      placeholder: |
+        - Diseño de logotipo y branding
+        - Ilustración y arte digital
+        - Diseño de interfaces (UI/UX)
+        - Consultoría de identidad visual
+    validations:
+      required: true
+
+  - type: dropdown
+    id: pais
+    attributes:
+      label: "País *"
+      options:
+        - "España"
+        - "Solo Online"
+    validations:
+      required: true
+
+  - type: input
+    id: ciudad
+    attributes:
+      label: "Ciudad / Región"
+      placeholder: "Madrid / Barcelona / CDMX / Zona Norte / Online"
+
+  - type: input
+    id: direccion
+    attributes:
+      label: "Dirección física (solo si tienes local)"
+      description: "Para restaurantes, tiendas, hoteles, talleres..."
+      placeholder: "Calle Gran Vía 45, Local 2 — Madrid"
+
+  - type: input
+    id: horario
+    attributes:
+      label: "Horario de atención"
+      placeholder: "Lun–Vie 10:00–20:00 / Sáb 10:00–14:00 / Flexible"
+
+  - type: input
+    id: maps
+    attributes:
+      label: "Link Google Maps u OpenStreetMap"
+      placeholder: "https://maps.app.goo.gl/..."
+
+  - type: dropdown
+    id: categoria
+    attributes:
+      label: "Categoría principal *"
+      options:
+        - "tech — desarrollo, software, hardware"
+        - "diseño — gráfico, web, UX, arquitectura"
+        - "legal — asesoría, contratos, derecho digital"
+        - "salud — medicina, terapias, bienestar"
+        - "educacion — cursos, tutorías, formación"
+        - "alimentacion — restaurante, catering, productos"
+        - "arte — música, ilustración, escritura, cine"
+        - "finanzas — consultoría, trading, contabilidad"
+        - "construccion — reformas, inmuebles, instalaciones"
+        - "logistica — transporte, mensajería, importación"
+        - "comercio — tienda, productos físicos"
+        - "hosteleria — hotel, alojamiento, turismo"
+        - "marketing — publicidad, SEO, redes sociales"
+        - "otro — describir en presentación"
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags adicionales (máx. 5, separados por coma)"
+      placeholder: "bitcoin, nómada-digital, privacidad, permacultura, web3"
+
+  - type: checkboxes
+    id: acepta_crypto
+    attributes:
+      label: "Acepta / Paga en *"
+      description: "Marca todo lo que aplique"
+      options:
+        - label: "Bitcoin (BTC — on-chain)"
+        - label: "Lightning Network (BTC instant)"
+        - label: "Ethereum (ETH)"
+        - label: "USDT / USDC (stablecoins)"
+        - label: "Monero (XMR)"
+        - label: "Solana (SOL)"
+        - label: "Trueque / Intercambio de valor"
+        - label: "Euro / moneda fiat también"
+        - label: "Otra — indicar en descripción"
+
+  - type: input
+    id: wallet
+    attributes:
+      label: "Wallet pública BTC o ETH (opcional — genera confianza)"
+      placeholder: "bc1q... / 0x..."
+
+  - type: input
+    id: web
+    attributes:
+      label: "Página web"
+      placeholder: "https://miempresa.com"
+
+  - type: input
+    id: email
+    attributes:
+      label: "Email de contacto"
+      placeholder: "hola@miempresa.com"
+
+  - type: input
+    id: telegram
+    attributes:
+      label: "Telegram"
+      placeholder: "@usuario o https://t.me/grupo"
+
+  - type: input
+    id: nostr
+    attributes:
+      label: "Nostr (npub)"
+      placeholder: "npub1..."
+
+  - type: input
+    id: twitter
+    attributes:
+      label: "Twitter / X"
+      placeholder: "@usuario"
+
+  - type: input
+    id: instagram
+    attributes:
+      label: "Instagram"
+      placeholder: "@usuario"
+
+  - type: input
+    id: youtube
+    attributes:
+      label: "YouTube / Odysee / canal de video"
+      placeholder: "https://youtube.com/@..."
+
+  - type: input
+    id: linkedin
+    attributes:
+      label: "LinkedIn"
+      placeholder: "https://linkedin.com/in/..."
+
+  - type: input
+    id: github
+    attributes:
+      label: "GitHub / GitLab (perfiles tech)"
+      placeholder: "https://github.com/..."
+
+  - type: input
+    id: portfolio
+    attributes:
+      label: "Portfolio o ejemplos de trabajo"
+      placeholder: "https://behance.net/... / https://..."
+
+  - type: input
+    id: foto
+    attributes:
+      label: "Logo o foto (link a imagen)"
+      description: "Sube la imagen a imgur.com y pega el link directo"
+      placeholder: "https://i.imgur.com/..."
+
+  - type: input
+    id: idiomas
+    attributes:
+      label: "Idiomas en los que puedes operar"
+      placeholder: "Español, English, Português"
+
+  - type: input
+    id: fundacion
+    attributes:
+      label: "Año de inicio de actividad"
+      placeholder: "2021"
+
+  - type: textarea
+    id: notas
+    attributes:
+      label: "Información adicional"
+      placeholder: "Cualquier dato relevante que no encaje en los campos anteriores..."
+
+  - type: checkboxes
+    id: confirmacion
+    attributes:
+      label: "Confirmación obligatoria *"
+      options:
+        - label: "La información que proporciono es real y me responsabilizo de ella"
+          required: true
+        - label: "Entiendo que este directorio es P2P, sin intermediario ni garantía institucional"
+          required: true
+        - label: "Acepto que el maintainer puede rechazar o pedir correcciones en la entrada"
+          required: true

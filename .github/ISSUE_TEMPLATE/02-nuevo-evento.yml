@@ -1,0 +1,120 @@
+﻿name: "📅 Nuevo Evento"
+description: "Publicar un meetup, taller, conferencia o evento online"
+title: "[EVENTO] Nombre del evento — Fecha"
+labels: ["evento", "pendiente-revision"]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        # Publicar un Evento en PlazaP2P
+        Rellena los datos de tu evento. Aparecerá en la sección Eventos del directorio.
+        PlazaP2P cubre principalmente España, aunque se aceptan eventos online en español.
+
+  - type: input
+    id: nombre
+    attributes:
+      label: "Nombre del evento *"
+      placeholder: "Bitcoin Meetup Madrid — Mayo 2025"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: "Tipo de evento *"
+      options:
+        - "Meetup / Quedada informal"
+        - "Taller / Workshop"
+        - "Conferencia / Charla"
+        - "Hackathon"
+        - "Mercado / Feria"
+        - "Evento online (webinar, stream)"
+        - "Retiro / Encuentro residencial"
+        - "Otro"
+    validations:
+      required: true
+
+  - type: input
+    id: fecha
+    attributes:
+      label: "Fecha *"
+      placeholder: "15 de Junio de 2025 / Cada primer sábado del mes"
+    validations:
+      required: true
+
+  - type: input
+    id: hora
+    attributes:
+      label: "Hora y zona horaria"
+      placeholder: "18:00 CET / 12:00 CDMX"
+
+  - type: input
+    id: lugar
+    attributes:
+      label: "Lugar *"
+      placeholder: "Bar El Nodo, Calle Mayor 10, Madrid / Online via Jitsi"
+    validations:
+      required: true
+
+  - type: input
+    id: pais
+    attributes:
+      label: "País / Zona *"
+      placeholder: "España — Madrid / Online / Internacional"
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: "Descripción del evento *"
+      description: "Qué va a pasar, para quién es, qué se va a aprender o hacer..."
+      placeholder: |
+        Meetup mensual de bitcoiners en Madrid. Charlas libres sobre Lightning Network,
+        soberanía financiera y proyectos locales. Todos los niveles bienvenidos.
+        Traed vuestras preguntas y proyectos.
+    validations:
+      required: true
+
+  - type: input
+    id: coste
+    attributes:
+      label: "Coste de entrada"
+      placeholder: "Gratis / Donación voluntaria / 10€ o 0.0001 BTC"
+
+  - type: input
+    id: registro
+    attributes:
+      label: "Link de registro o más info"
+      placeholder: "https://... / @telegram"
+
+  - type: input
+    id: organizador
+    attributes:
+      label: "Organizador / Contacto *"
+      placeholder: "@telegram / email / nombre"
+    validations:
+      required: true
+
+  - type: input
+    id: idioma
+    attributes:
+      label: "Idioma del evento"
+      placeholder: "Español / English / Bilingüe"
+
+  - type: input
+    id: foto
+    attributes:
+      label: "Imagen del evento (opcional)"
+      placeholder: "https://i.imgur.com/..."
+
+  - type: checkboxes
+    id: confirmacion
+    attributes:
+      label: "Confirmación *"
+      options:
+        - label: "El evento es real y la información es correcta"
+          required: true
+        - label: "Me comprometo a avisar si el evento se cancela o cambia de fecha"
+          required: true

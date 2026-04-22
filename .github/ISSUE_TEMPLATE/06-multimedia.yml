@@ -1,0 +1,77 @@
+name: 🎙 Multimedia
+description: Añade un canal de YouTube, podcast, newsletter o blog sobre Bitcoin en español
+labels: ["multimedia", "pendiente-revision"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Comparte un recurso multimedia sobre Bitcoin, Lightning, privacidad o economía circular.
+
+  - type: input
+    id: titulo
+    attributes:
+      label: Título *
+      placeholder: "Nombre del canal, podcast o newsletter"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo *
+      options:
+        - YouTube
+        - Podcast
+        - Newsletter
+        - Blog
+        - Livestream
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción breve *
+      placeholder: "¿De qué trata? ¿Con qué frecuencia publica?"
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Link principal *
+      placeholder: "https://youtube.com/..."
+    validations:
+      required: true
+
+  - type: input
+    id: autor
+    attributes:
+      label: Autor / Responsable
+      placeholder: "Nombre o alias del creador"
+
+  - type: dropdown
+    id: idioma
+    attributes:
+      label: Idioma principal
+      options:
+        - Español
+        - English
+        - Català
+        - Otros
+
+  - type: input
+    id: frecuencia
+    attributes:
+      label: Frecuencia de publicación
+      placeholder: "Semanal, mensual, irregular..."
+
+  - type: dropdown
+    id: gratuito
+    attributes:
+      label: ¿Es gratuito?
+      options:
+        - Sí
+        - No
+        - Freemium

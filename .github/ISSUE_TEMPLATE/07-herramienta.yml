@@ -1,0 +1,104 @@
+name: 🔧 Herramienta / Tool
+description: Propón una herramienta, servicio o app para el directorio de recursos
+labels: ["herramienta", "pendiente-revision"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Comparte una herramienta útil para el ecosistema Bitcoin, privacidad o economía circular.
+        Revisa que no esté ya en el directorio antes de enviar.
+
+  - type: input
+    id: nombre
+    attributes:
+      label: Nombre *
+      placeholder: "Nombre de la herramienta o servicio"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Categoría *
+      description: Elige la categoría que mejor describe la herramienta
+      options:
+        - Exchange
+        - Aggregator
+        - P2P
+        - Indie exchange
+        - DEX
+        - ATM
+        - Marketplace
+        - Shopping
+        - Tool
+        - OS & Live USB
+        - Encryption
+        - Browser
+        - Password Manager
+        - Messaging
+        - VPN
+        - Hosting
+        - VPS
+        - Domains
+        - Email
+        - Email alias
+        - SMS
+        - e-SIM
+        - Cards
+        - Gift cards
+        - AI
+        - Proxy store
+        - Utilities
+        - Other services
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción breve *
+      placeholder: "¿Para qué sirve? ¿Qué la diferencia de otras? (máx. 300 caracteres)"
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Link oficial *
+      placeholder: "https://..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: plataforma
+    attributes:
+      label: Plataforma
+      options:
+        - Web
+        - Mobile
+        - Desktop
+        - CLI
+        - Multi-plataforma
+        - Browser Extension
+        - Live USB
+        - Desktop · Mobile
+        - Desktop · CLI
+        - Self-hosted
+        - VM
+
+  - type: dropdown
+    id: open_source
+    attributes:
+      label: ¿Es open source?
+      options:
+        - "Sí"
+        - "No"
+        - Parcialmente
+
+  - type: input
+    id: logo
+    attributes:
+      label: Logo (URL directa a imagen)
+      placeholder: "https://ejemplo.com/favicon.ico"
+      description: "URL al logo o favicon oficial. Se mostrará en la tarjeta (36×36px)."

@@ -1,0 +1,85 @@
+name: "📢 Anuncio / Oportunidad"
+description: "Publicar un anuncio puntual, colaboración, oferta o búsqueda rápida"
+title: "[ANUNCIO] Título del anuncio"
+labels: ["anuncio", "pendiente-revision"]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        # Tablón de Anuncios NodoP2P
+        Para publicaciones puntuales que no encajan en el directorio permanente.
+        Los anuncios tienen una vigencia limitada.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: "Tipo de anuncio *"
+      options:
+        - "Busco colaborador / socio"
+        - "Ofrezco trabajo o proyecto puntual"
+        - "Vendo (producto o servicio único)"
+        - "Compro / busco algo concreto"
+        - "Intercambio / trueque directo"
+        - "Donación / crowdfunding"
+        - "Aviso importante para la comunidad"
+        - "Otro"
+    validations:
+      required: true
+
+  - type: input
+    id: titulo
+    attributes:
+      label: "Título del anuncio *"
+      placeholder: "Busco dev React para proyecto de 2 semanas, pago en BTC"
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: "Descripción completa *"
+      description: "Todos los detalles: qué necesitas, qué ofreces, condiciones, presupuesto..."
+      placeholder: |
+        Proyecto: dashboard para nodo Bitcoin + Lightning.
+        Stack: React + Node.js + LND API.
+        Duración: 2-3 semanas. Trabajo remoto y bien documentado.
+        Presupuesto: 0.05 BTC. Contacto para ver portfolio antes de acordar.
+    validations:
+      required: true
+
+  - type: input
+    id: zona
+    attributes:
+      label: "Zona o alcance"
+      placeholder: "España / Online / Global / Buenos Aires"
+
+  - type: input
+    id: duracion
+    attributes:
+      label: "Vigencia del anuncio"
+      placeholder: "Hasta el 30 de Junio / Hasta cubrir la plaza / 1 mes"
+
+  - type: input
+    id: presupuesto
+    attributes:
+      label: "Presupuesto o valor ofrecido (si aplica)"
+      placeholder: "0.05 BTC / 500 USDT / Trueque — negociable"
+
+  - type: input
+    id: contacto
+    attributes:
+      label: "Contacto *"
+      placeholder: "@telegram / email / web"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmacion
+    attributes:
+      label: "Confirmación *"
+      options:
+        - label: "El anuncio es real y me responsabilizo de él"
+          required: true
+        - label: "Avisaré cuando el anuncio ya no esté vigente"
+          required: true

@@ -1,0 +1,112 @@
+name: "📚 Guía o Recurso de Aprendizaje"
+description: "Proponer una guía, tutorial, artículo o recurso educativo"
+title: "[GUIA] Título del recurso"
+labels: ["aprendizaje", "pendiente-revision"]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        # Proponer un Recurso de Aprendizaje
+        Comparte una guía, tutorial, libro, video o herramienta que hayas encontrado valiosa.
+
+  - type: input
+    id: titulo
+    attributes:
+      label: "Título *"
+      placeholder: "Cómo configurar una wallet de Bitcoin desde cero"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: "Tipo de recurso *"
+      options:
+        - "Artículo / Guía escrita"
+        - "Video / Tutorial"
+        - "Curso completo"
+        - "Libro / Whitepaper"
+        - "Podcast / Audio"
+        - "Herramienta / Software"
+        - "Repositorio de código"
+        - "Comunidad de aprendizaje"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: nivel
+    attributes:
+      label: "Nivel *"
+      options:
+        - "Principiante — sin conocimientos previos"
+        - "Intermedio — familiarizado con el tema"
+        - "Avanzado — conocimiento técnico profundo"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: categoria
+    attributes:
+      label: "Categoría *"
+      options:
+        - "Bitcoin — fundamentos"
+        - "Bitcoin — técnico (lightning, nodos, custodia)"
+        - "Cripto general — altcoins, DeFi"
+        - "Privacidad y seguridad"
+        - "Economía y filosofía"
+        - "Legal y fiscal"
+        - "Minería"
+        - "Herramientas y software"
+        - "Economía circular y P2P"
+        - "Otro"
+    validations:
+      required: true
+
+  - type: input
+    id: idioma
+    attributes:
+      label: "Idioma del recurso *"
+      placeholder: "Español / English / Portugués"
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: "Descripción breve *"
+      description: "Qué aprenderá el usuario, por qué es valioso este recurso..."
+      placeholder: |
+        Guía paso a paso para elegir y configurar tu primera wallet Bitcoin.
+        Explica la diferencia entre custodial y non-custodial, cómo guardar
+        la seed phrase y las mejores prácticas de seguridad.
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: "Link al recurso *"
+      placeholder: "https://..."
+    validations:
+      required: true
+
+  - type: input
+    id: autor
+    attributes:
+      label: "Autor o fuente"
+      placeholder: "Satoshi Nakamoto / Bitcoin Magazine / @usuario"
+
+  - type: input
+    id: gratuito
+    attributes:
+      label: "¿Es gratuito?"
+      placeholder: "Sí / No / Freemium (parte gratuita)"
+
+  - type: checkboxes
+    id: confirmacion
+    attributes:
+      label: "Confirmación *"
+      options:
+        - label: "He revisado el recurso y considero que es de calidad y relevante para la comunidad"
+          required: true

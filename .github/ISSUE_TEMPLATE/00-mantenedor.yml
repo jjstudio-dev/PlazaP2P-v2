@@ -1,0 +1,59 @@
+﻿name: "[MANTENEDOR] Entrada curada"
+description: "Solo para el mantenedor del repositorio — publica una entrada directamente sin revisión pública"
+labels: ["mantenedor", "destacado"]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Entrada de Mantenedor — PlazaP2P
+        Esta plantilla es de uso exclusivo del mantenedor del proyecto.
+        La entrada se publica **instantáneamente** sin revisión adicional.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: "Tipo de entrada *"
+      options:
+        - "nodo"
+        - "evento"
+        - "guia"
+        - "comunidad"
+        - "anuncio"
+    validations:
+      required: true
+
+  - type: input
+    id: ref_id
+    attributes:
+      label: "ID de referencia (si ya existe en el directorio)"
+      description: "Ejemplo: nodo-002 — dejar vacío si es una entrada completamente nueva"
+      placeholder: "nodo-002"
+
+  - type: textarea
+    id: datos_json
+    attributes:
+      label: "Datos completos en JSON (si es entrada nueva)"
+      description: "Solo si no tiene ref_id. Pega el objeto JSON completo."
+      placeholder: |
+        {
+          "nombre": "Nombre del nodo",
+          "presentacion": "Descripción...",
+          "pais": "España",
+          "categoria": "tech"
+        }
+
+  - type: input
+    id: motivo
+    attributes:
+      label: "Motivo / nota del mantenedor *"
+      description: "Por qué merece aparecer en Destacados"
+      placeholder: "Proyecto ejemplar de economía circular con Lightning nativo"
+    validations:
+      required: true
+
+  - type: input
+    id: orden
+    attributes:
+      label: "Orden de aparición en Destacados (1 = primero)"
+      placeholder: "1"

@@ -1,0 +1,183 @@
+name: Submission → Auto PR
+
+on:
+  issues:
+    types: [labeled, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: plazap2p-submission-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  process:
+    timeout-minutes: 5
+    # Fires when any content-type label is present on the issue
+    if: |
+      (github.event.action == 'labeled' &&
+       contains(fromJSON('["nodo","evento","aprendizaje","comunidad","anuncio","multimedia","herramienta"]'), github.event.label.name))
+      ||
+      (github.event.action != 'labeled' &&
+        (contains(github.event.issue.labels.*.name, 'nodo')        ||
+         contains(github.event.issue.labels.*.name, 'evento')      ||
+         contains(github.event.issue.labels.*.name, 'aprendizaje') ||
+         contains(github.event.issue.labels.*.name, 'comunidad')   ||
+         contains(github.event.issue.labels.*.name, 'anuncio')     ||
+         contains(github.event.issue.labels.*.name, 'multimedia')  ||
+         contains(github.event.issue.labels.*.name, 'herramienta')))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Parse issue and update JSON
+        id: parse
+        env:
+          ISSUE_BODY:    ${{ github.event.issue.body }}
+          ISSUE_TITLE:   ${{ github.event.issue.title }}
+          ISSUE_NUMBER:  ${{ github.event.issue.number }}
+          ISSUE_USER:    ${{ github.event.issue.user.login }}
+          ISSUE_LABELS:  ${{ toJSON(github.event.issue.labels) }}
+        run: node scripts/parse-issue.mjs
+
+      - name: Create Pull Request
+        id: pr
+        if: steps.parse.outputs.status == 'success'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/submission-${{ github.event.issue.number }}
+          commit-message: "data: add entry from issue #${{ github.event.issue.number }} (@${{ github.event.issue.user.login }})"
+          title: "[Submission] ${{ github.event.issue.title }}"
+          body: |
+            Entrada generada automáticamente desde el issue #${{ github.event.issue.number }}.
+
+            **Enviado por:** @${{ github.event.issue.user.login }}
+            **Entrada:** ${{ steps.parse.outputs.entry_name }}
+
+            Revisa los datos en `data/*.json` antes de mergear.
+            Al mergear, la entrada queda publicada en el directorio.
+
+            Cierra: #${{ github.event.issue.number }}
+          labels: "auto-pr"
+          delete-branch: true
+
+      - name: Upsert status comment on issue
+        if: always() && steps.parse.outputs.status != ''
+        uses: actions/github-script@v7
+        env:
+          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
+          STATUS: ${{ steps.parse.outputs.status }}
+          MESSAGE: ${{ steps.parse.outputs.message }}
+        with:
+          script: |
+            const marker  = '<!-- plazap2p-submission-status -->';
+            const status  = process.env.STATUS;
+            const prUrl   = process.env.PR_URL || '';
+            const message = process.env.MESSAGE || '';
+
+            let body = marker + '\n\n';
+            if (status === 'success') {
+              body += `✅ **Entrada procesada correctamente.**\n\n`;
+              if (prUrl) body += `📋 PR creado para revisión del mantenedor: ${prUrl}\n\n`;
+              body += `Tu entrada será publicada en el directorio cuando el mantenedor apruebe el PR.\n\n`;
+              body += `> Si necesitas actualizar algo, edita este issue y el PR se regenerará automáticamente.`;
+            } else if (status === 'skip') {
+              body += `ℹ️ Issue ignorado: sin label de tipo reconocido.`;
+            } else {
+              body += `❌ **Error al procesar la entrada:**\n\n\`\`\`\n${message}\n\`\`\`\n\nRevisa el formato del issue y vuelve a editar para reintentar.`;
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find(c => c.body.startsWith(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner:      context.repo.owner,
+                repo:       context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+  # Maintainer fast-path: direct commit, no PR needed
+  maintainer-direct:
+    timeout-minutes: 5
+    if: |
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mantenedor' &&
+      github.event.issue.user.login == vars.MAINTAINER_LOGIN
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Parse and commit directly
+        id: parse
+        env:
+          ISSUE_BODY:    ${{ github.event.issue.body }}
+          ISSUE_TITLE:   ${{ github.event.issue.title }}
+          ISSUE_NUMBER:  ${{ github.event.issue.number }}
+          ISSUE_USER:    ${{ github.event.issue.user.login }}
+          ISSUE_LABELS:  ${{ toJSON(github.event.issue.labels) }}
+        run: node scripts/parse-issue.mjs
+
+      - name: Commit direct
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "data: mantenedor entry #${{ github.event.issue.number }}"
+          file_pattern: "data/*.json"
+
+      - name: Confirm and close issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          PARSE_OUTCOME: ${{ steps.parse.outcome }}
+        with:
+          script: |
+            const success = process.env.PARSE_OUTCOME === 'success';
+            const body = success
+              ? '⚡ **Entrada de mantenedor publicada instantáneamente.**\n\nYa aparece en el directorio.'
+              : '❌ **Error al procesar la entrada de mantenedor.** Revisa el formato del issue.';
+            await github.rest.issues.createComment({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+            if (success) {
+              await github.rest.issues.update({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: context.issue.number,
+                state:        'closed'
+              });
+            }

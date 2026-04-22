@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Cloudflare / Wrangler
+node_modules/
+.wrangler/
+dist/
+.env.*
+.dev.vars
+
+# Python (no longer used — kept for safety)
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+
+# Logs
+*.log

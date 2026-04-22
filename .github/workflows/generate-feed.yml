@@ -1,0 +1,30 @@
+name: Generate RSS Feed
+
+on:
+  push:
+    branches: [main]
+    paths: ['data/*.json']
+
+permissions:
+  contents: write
+
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Generate feed.xml
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: node scripts/generate-feed.mjs
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: regenerate feed.xml"
+          file_pattern: "feed.xml"

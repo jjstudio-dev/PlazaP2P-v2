@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enviar entrada — PlazaP2P v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600&display=swap">
+  <style>
+    :root {
+      --bg:      #07070c;
+      --bg-2:    #0e0e17;
+      --surface: rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.08);
+      --t-1:     #f5f5f7;
+      --t-2:     #86868b;
+      --accent:  #00d4ff;
+      --btc:     #f7931a;
+      --radius:  12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--t-1);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .logo span { color: var(--btc); }
+    .back-link {
+      margin-left: auto;
+      color: var(--t-2);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Main layout ── */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--t-2);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* ── Type tabs ── */
+    .type-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .type-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--t-2);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .type-tab:hover { border-color: var(--accent); color: var(--t-1); }
+    .type-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      font-weight: 600;
+    }
+
+    /* ── Form panels ── */
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    /* ── Form fields ── */
+    .form-section {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .form-section h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .field {
+      margin-bottom: 18px;
+    }
+    .field:last-child { margin-bottom: 0; }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--t-1);
+      margin-bottom: 6px;
+    }
+    label .req { color: var(--btc); margin-left: 2px; }
+    label .hint {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--t-2);
+      margin-top: 2px;
+    }
+    input[type="text"],
+    input[type="url"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--t-1);
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    select option { background: #1a1a2e; }
+    textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--t-2);
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── Submit button ── */
+    .submit-area { margin-top: 24px; text-align: center; }
+    .btn-submit {
+      background: var(--accent);
+      color: #000;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 40px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.85; }
+    .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Status messages ── */
+    .status-msg {
+      display: none;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .status-msg.success {
+      display: block;
+      background: rgba(48,209,88,0.1);
+      border: 1px solid rgba(48,209,88,0.3);
+      color: #30d158;
+    }
+    .status-msg.error {
+      display: block;
+      background: rgba(255,69,58,0.1);
+      border: 1px solid rgba(255,69,58,0.3);
+      color: #ff453a;
+    }
+
+    .notice {
+      font-size: 0.8rem;
+      color: var(--t-2);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* ── Character counter ── */
+    .char-counter {
+      font-size: 0.73rem;
+      color: var(--t-2);
+      text-align: right;
+      margin-top: 4px;
+    }
+    .char-counter.over { color: var(--btc); }
+
+    /* ── Honeypot (invisible to humans, visible to bots) ── */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    /* ── Success link ── */
+    .status-msg.success a { color: inherit; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="index.html">PLAZA<span>P2P</span></a>
+  <a class="back-link" href="index.html">← Volver al directorio</a>
+</header>
+
+<main class="container">
+  <h1>Añadir al directorio</h1>
+  <p class="subtitle">
+    Elige el tipo de entrada y rellena el formulario. No necesitas cuenta de GitHub.<br>
+    Tu envío será revisado por el mantenedor antes de publicarse.
+  </p>
+
+  <!-- Type selector -->
+  <div class="type-tabs" role="tablist">
+    <button class="type-tab active" data-type="nodo"        onclick="switchType('nodo')">📍 Nodo</button>
+    <button class="type-tab"        data-type="evento"      onclick="switchType('evento')">📅 Evento</button>
+    <button class="type-tab"        data-type="aprendizaje" onclick="switchType('aprendizaje')">📚 Guía / Recurso</button>
+    <button class="type-tab"        data-type="comunidad"   onclick="switchType('comunidad')">👥 Comunidad</button>
+    <button class="type-tab"        data-type="anuncio"     onclick="switchType('anuncio')">📢 Anuncio</button>
+    <button class="type-tab"        data-type="multimedia"  onclick="switchType('multimedia')">▶ Multimedia</button>
+    <button class="type-tab"        data-type="herramienta" onclick="switchType('herramienta')">🔧 Herramienta</button>
+  </div>
+
+  <!-- ── NODO ──────────────────────────────────────────────────── -->
+  <form id="form-nodo" class="form-panel active" onsubmit="submitForm(event,'nodo')">
+    <div class="form-section">
+      <h3>Perfil básico</h3>
+      <div class="field">
+        <label>Tipo de perfil <span class="req">*</span></label>
+        <select name="tipo_entidad" required>
+          <option value="">— Selecciona —</option>
+          <option>Profesional / Freelancer</option>
+          <option>Negocio físico (tienda, restaurante, taller...)</option>
+          <option>Negocio online</option>
+          <option>Proyecto / Startup / DAO</option>
+          <option>ONG / Asociación</option>
+          <option>Comunidad / Colectivo</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>¿Qué haces aquí? <span class="req">*</span></label>
+        <select name="tipo_accion" required>
+          <option value="">— Selecciona —</option>
+          <option>OFREZCO — vendo, doy o intercambio</option>
+          <option>BUSCO — necesito algo, pago en Bitcoin o trueque</option>
+          <option>AMBOS</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nombre del negocio o alias <span class="req">*</span></label>
+        <input type="text" name="nombre" maxlength="100" placeholder="Taller Bitcoin / 0xJuan" required>
+      </div>
+      <div class="field">
+        <label>Presentación <span class="req">*</span>
+          <span class="hint">Cuéntanos quién eres o qué es tu negocio. 3–6 líneas.</span>
+        </label>
+        <textarea name="presentacion" rows="4" maxlength="1000" placeholder="Somos un estudio de diseño..." required></textarea>
+        <div class="char-counter">0/1000</div>
+      </div>
+      <div class="field">
+        <label>Servicios o productos que ofreces / buscas <span class="req">*</span>
+          <span class="hint">Un servicio por línea, empezando con guión: - Diseño web</span>
+        </label>
+        <textarea name="servicios" rows="4" maxlength="800" placeholder="- Diseño de logotipo&#10;- Consultoría Bitcoin" required></textarea>
+        <div class="char-counter">0/800</div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Ubicación</h3>
+      <div class="field">
+        <label>País <span class="req">*</span></label>
+        <select name="pais" required>
+          <option value="">— Selecciona —</option>
+          <option>España</option>
+          <option>México</option>
+          <option>Argentina</option>
+          <option>Colombia</option>
+          <option>Venezuela</option>
+          <option>Chile</option>
+          <option>Perú</option>
+          <option>Uruguay</option>
+          <option>Ecuador</option>
+          <option>Bolivia</option>
+          <option>Paraguay</option>
+          <option>Costa Rica</option>
+          <option>Guatemala</option>
+          <option>El Salvador</option>
+          <option>Honduras</option>
+          <option>Nicaragua</option>
+          <option>Panamá</option>
+          <option>Cuba</option>
+          <option>Puerto Rico</option>
+          <option>República Dominicana</option>
+          <option>Solo Online</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ciudad / Región</label>
+        <input type="text" name="ciudad" placeholder="Madrid / CDMX / Online">
+      </div>
+      <div class="field">
+        <label>Dirección física <span class="hint">Solo si tienes local físico</span></label>
+        <input type="text" name="direccion" placeholder="Calle Gran Vía 45, Madrid">
+      </div>
+      <div class="field">
+        <label>Horario de atención</label>
+        <input type="text" name="horario" placeholder="Lun–Vie 10:00–20:00 / Flexible">
+      </div>
+      <div class="field">
+        <label>Link Google Maps u OpenStreetMap</label>
+        <input type="text" name="maps" placeholder="https://maps.app.goo.gl/...">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Categoría y pagos</h3>
+      <div class="field">
+        <label>Categoría principal <span class="req">*</span></label>
+        <select name="categoria" required>
+          <option value="">— Selecciona —</option>
+          <option>tech — desarrollo, software, hardware</option>
+          <option>diseño — gráfico, web, UX, arquitectura</option>
+          <option>legal — asesoría, contratos, derecho digital</option>
+          <option>salud — medicina, terapias, bienestar</option>
+          <option>educacion — cursos, tutorías, formación</option>
+          <option>alimentacion — restaurante, catering, productos</option>
+          <option>arte — música, ilustración, escritura, cine</option>
+          <option>finanzas — consultoría, trading, contabilidad</option>
+          <option>construccion — reformas, inmuebles, instalaciones</option>
+          <option>logistica — transporte, mensajería, importación</option>
+          <option>comercio — tienda, productos físicos</option>
+          <option>hosteleria — hotel, alojamiento, turismo</option>
+          <option>marketing — publicidad, SEO, redes sociales</option>
+          <option>otro — describir en presentación</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tags adicionales <span class="hint">Máx. 5, separados por coma</span></label>
+        <input type="text" name="tags" maxlength="150" placeholder="bitcoin, nómada-digital, privacidad">
+      </div>
+      <div class="field">
+        <label>Acepta / Paga en <span class="req">*</span></label>
+        <div class="checkbox-group">
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Bitcoin (BTC — on-chain)"> Bitcoin (BTC on-chain)</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Lightning Network (BTC instant)"> Lightning Network</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Ethereum (ETH)"> Ethereum (ETH)</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="USDT / USDC (stablecoins)"> USDT / USDC</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Monero (XMR)"> Monero (XMR)</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Solana (SOL)"> Solana (SOL)</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Trueque / Intercambio de valor"> Trueque</label>
+          <label class="checkbox-label"><input type="checkbox" name="acepta_crypto" value="Euro / moneda fiat también"> Euro / Fiat</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Wallet pública BTC o ETH <span class="hint">Opcional — genera confianza</span></label>
+        <input type="text" name="wallet" placeholder="bc1q... / 0x...">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Contacto y redes</h3>
+      <div class="field">
+        <label>Página web</label>
+        <input type="url" name="web" placeholder="https://miempresa.com">
+      </div>
+      <div class="field">
+        <label>Email de contacto</label>
+        <input type="email" name="email" placeholder="hola@miempresa.com">
+      </div>
+      <div class="field">
+        <label>Telegram</label>
+        <input type="text" name="telegram" placeholder="@usuario o https://t.me/grupo">
+      </div>
+      <div class="field">
+        <label>Nostr (npub)</label>
+        <input type="text" name="nostr" placeholder="npub1...">
+      </div>
+      <div class="field">
+        <label>Twitter / X</label>
+        <input type="text" name="twitter" placeholder="@usuario">
+      </div>
+      <div class="field">
+        <label>Instagram</label>
+        <input type="text" name="instagram" placeholder="@usuario">
+      </div>
+      <div class="field">
+        <label>Logo o foto <span class="hint">Sube en imgur.com y pega el link</span></label>
+        <input type="url" name="foto" placeholder="https://i.imgur.com/...">
+      </div>
+      <div class="field">
+        <label>Idiomas en los que puedes operar</label>
+        <input type="text" name="idiomas" placeholder="Español, English, Português">
+      </div>
+      <div class="field">
+        <label>Información adicional</label>
+        <textarea name="notas" rows="3" maxlength="500" placeholder="Cualquier dato relevante..."></textarea>
+        <div class="char-counter">0/500</div>
+      </div>
+    </div>
+
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR NODO →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-nodo" class="status-msg"></div>
+    </div>
+  </form>
+
+  <!-- ── EVENTO ─────────────────────────────────────────────── -->
+  <form id="form-evento" class="form-panel" onsubmit="submitForm(event,'evento')">
+    <div class="form-section">
+      <h3>Datos del evento</h3>
+      <div class="field">
+        <label>Nombre del evento <span class="req">*</span></label>
+        <input type="text" name="nombre" maxlength="150" placeholder="Bitcoin Meetup Madrid #12" required>
+      </div>
+      <div class="field">
+        <label>Tipo de evento <span class="req">*</span></label>
+        <select name="tipo" required>
+          <option value="">— Selecciona —</option>
+          <option>Meetup / Quedada informal</option>
+          <option>Taller / Workshop</option>
+          <option>Conferencia / Charla</option>
+          <option>Hackathon</option>
+          <option>Mercado / Feria</option>
+          <option>Evento online (webinar, stream)</option>
+          <option>Retiro / Encuentro residencial</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Fecha <span class="req">*</span></label>
+        <input type="text" name="fecha" placeholder="2025-09-15 / 15 septiembre 2025" required>
+      </div>
+      <div class="field">
+        <label>Hora y zona horaria</label>
+        <input type="text" name="hora" placeholder="19:00 CET / 18:00 UTC">
+      </div>
+      <div class="field">
+        <label>Lugar <span class="req">*</span></label>
+        <input type="text" name="lugar" placeholder="Coworking El Nodo, Madrid / Online" required>
+      </div>
+      <div class="field">
+        <label>País / Zona</label>
+        <input type="text" name="pais" placeholder="España / Latam / Online Global">
+      </div>
+      <div class="field">
+        <label>Descripción del evento <span class="req">*</span></label>
+        <textarea name="descripcion" rows="4" maxlength="800" placeholder="De qué va el evento, qué se verá, quién es el ponente..." required></textarea>
+        <div class="char-counter">0/800</div>
+      </div>
+      <div class="field">
+        <label>Coste de entrada</label>
+        <input type="text" name="coste" placeholder="Gratuito / 5.000 sats / €10">
+      </div>
+      <div class="field">
+        <label>Link de registro o más info</label>
+        <input type="url" name="registro" placeholder="https://...">
+      </div>
+      <div class="field">
+        <label>Organizador / Contacto <span class="req">*</span></label>
+        <input type="text" name="organizador" placeholder="@bitcoin_madrid / hola@evento.com" required>
+      </div>
+      <div class="field">
+        <label>Idioma del evento</label>
+        <input type="text" name="idioma" placeholder="Español / English">
+      </div>
+      <div class="field">
+        <label>Imagen del evento</label>
+        <input type="url" name="foto" placeholder="https://i.imgur.com/...">
+      </div>
+    </div>
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR EVENTO →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-evento" class="status-msg"></div>
+    </div>
+  </form>
+
+  <!-- ── APRENDIZAJE ───────────────────────────────────────── -->
+  <form id="form-aprendizaje" class="form-panel" onsubmit="submitForm(event,'aprendizaje')">
+    <div class="form-section">
+      <h3>Recurso educativo</h3>
+      <div class="field">
+        <label>Título <span class="req">*</span></label>
+        <input type="text" name="titulo" maxlength="150" placeholder="Guía práctica de Lightning Network" required>
+      </div>
+      <div class="field">
+        <label>Tipo de recurso <span class="req">*</span></label>
+        <select name="tipo" required>
+          <option value="">— Selecciona —</option>
+          <option>Artículo / Guía escrita</option>
+          <option>Video / Tutorial</option>
+          <option>Curso completo</option>
+          <option>Libro / Whitepaper</option>
+          <option>Podcast / Audio</option>
+          <option>Herramienta / Software</option>
+          <option>Repositorio de código</option>
+          <option>Comunidad de aprendizaje</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nivel <span class="req">*</span></label>
+        <select name="nivel" required>
+          <option value="">— Selecciona —</option>
+          <option>Principiante — sin conocimientos previos</option>
+          <option>Intermedio — familiarizado con el tema</option>
+          <option>Avanzado — conocimiento técnico profundo</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Categoría <span class="req">*</span></label>
+        <select name="categoria" required>
+          <option value="">— Selecciona —</option>
+          <option>Bitcoin — fundamentos</option>
+          <option>Bitcoin — técnico (lightning, nodos, custodia)</option>
+          <option>Cripto general — altcoins, DeFi</option>
+          <option>Privacidad y seguridad</option>
+          <option>Economía y filosofía</option>
+          <option>Legal y fiscal</option>
+          <option>Minería</option>
+          <option>Herramientas y software</option>
+          <option>Economía circular y P2P</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Idioma del recurso</label>
+        <input type="text" name="idioma" placeholder="Español / English">
+      </div>
+      <div class="field">
+        <label>Descripción breve <span class="req">*</span></label>
+        <textarea name="descripcion" rows="3" maxlength="800" placeholder="Qué aprenderás con este recurso..." required></textarea>
+        <div class="char-counter">0/800</div>
+      </div>
+      <div class="field">
+        <label>Link al recurso <span class="req">*</span></label>
+        <input type="url" name="link" placeholder="https://..." required>
+      </div>
+      <div class="field">
+        <label>Autor o fuente</label>
+        <input type="text" name="autor" placeholder="@bitcoin_dev / Satoshi Nakamoto">
+      </div>
+      <div class="field">
+        <label>¿Es gratuito? <span class="req">*</span></label>
+        <select name="gratuito" required>
+          <option value="">— Selecciona —</option>
+          <option value="Sí">Sí, gratuito</option>
+          <option value="No">No, de pago</option>
+          <option value="Freemium">Freemium</option>
+        </select>
+      </div>
+    </div>
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR RECURSO →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-aprendizaje" class="status-msg"></div>
+    </div>
+  </form>
+
+  <!-- ── COMUNIDAD ─────────────────────────────────────────── -->
+  <form id="form-comunidad" class="form-panel" onsubmit="submitForm(event,'comunidad')">
+    <div class="form-section">
+      <h3>Datos de la comunidad</h3>
+      <div class="field">
+        <label>Nombre de la comunidad <span class="req">*</span></label>
+        <input type="text" name="nombre" maxlength="100" placeholder="Bitcoin Madrid / Bitcoiners Latam" required>
+      </div>
+      <div class="field">
+        <label>Plataforma principal <span class="req">*</span></label>
+        <select name="plataforma" required>
+          <option value="">— Selecciona —</option>
+          <option>Telegram</option>
+          <option>Discord</option>
+          <option>Nostr</option>
+          <option>Matrix / Element</option>
+          <option>WhatsApp</option>
+          <option>Foro propio</option>
+          <option>Meetup.com</option>
+          <option>Reddit</option>
+          <option>Signal</option>
+          <option>Otra</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Link de acceso <span class="req">*</span></label>
+        <input type="url" name="link" placeholder="https://t.me/... / https://..." required>
+      </div>
+      <div class="field">
+        <label>Alcance geográfico <span class="req">*</span></label>
+        <input type="text" name="pais" placeholder="España / México / Global / Latam" required>
+      </div>
+      <div class="field">
+        <label>Ciudad <span class="hint">Si es una comunidad local</span></label>
+        <input type="text" name="ciudad" placeholder="Madrid / Buenos Aires">
+      </div>
+      <div class="field">
+        <label>Número aproximado de miembros</label>
+        <input type="text" name="miembros" placeholder="500 / 1200 / +5000">
+      </div>
+      <div class="field">
+        <label>Descripción y enfoque <span class="req">*</span></label>
+        <textarea name="descripcion" rows="3" maxlength="800" placeholder="De qué trata la comunidad, a quién va dirigida..." required></textarea>
+        <div class="char-counter">0/800</div>
+      </div>
+      <div class="field">
+        <label>Idioma principal</label>
+        <input type="text" name="idioma" placeholder="Español / English">
+      </div>
+      <div class="field">
+        <label>Contacto del responsable o admin</label>
+        <input type="text" name="contacto" placeholder="@admin / admin@comunidad.com">
+      </div>
+    </div>
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR COMUNIDAD →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-comunidad" class="status-msg"></div>
+    </div>
+  </form>
+
+  <!-- ── ANUNCIO ────────────────────────────────────────────── -->
+  <form id="form-anuncio" class="form-panel" onsubmit="submitForm(event,'anuncio')">
+    <div class="form-section">
+      <h3>Anuncio P2P</h3>
+      <div class="field">
+        <label>Tipo de anuncio <span class="req">*</span></label>
+        <select name="tipo" required>
+          <option value="">— Selecciona —</option>
+          <option>Busco colaborador / socio</option>
+          <option>Ofrezco trabajo o proyecto puntual</option>
+          <option>Vendo (producto o servicio único)</option>
+          <option>Compro / busco algo concreto</option>
+          <option>Intercambio / trueque directo</option>
+          <option>Donación / crowdfunding</option>
+          <option>Aviso importante para la comunidad</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Título del anuncio <span class="req">*</span></label>
+        <input type="text" name="titulo" maxlength="150" placeholder="Vendo laptop ThinkPad por Bitcoin" required>
+      </div>
+      <div class="field">
+        <label>Descripción completa <span class="req">*</span></label>
+        <textarea name="descripcion" rows="4" maxlength="1000" placeholder="Detalles del producto / servicio, estado, condiciones..." required></textarea>
+        <div class="char-counter">0/1000</div>
+      </div>
+      <div class="field">
+        <label>Zona o alcance <span class="req">*</span></label>
+        <input type="text" name="zona" placeholder="Madrid presencial / Online / Envío a España" required>
+      </div>
+      <div class="field">
+        <label>Vigencia del anuncio</label>
+        <input type="text" name="duracion" placeholder="30 días / Hasta vender / Permanente">
+      </div>
+      <div class="field">
+        <label>Presupuesto o valor ofrecido</label>
+        <input type="text" name="presupuesto" placeholder="0.005 BTC / 50.000 sats / Negociable">
+      </div>
+      <div class="field">
+        <label>Contacto <span class="req">*</span></label>
+        <input type="text" name="contacto" placeholder="@telegram / email@..." required>
+      </div>
+    </div>
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR ANUNCIO →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-anuncio" class="status-msg"></div>
+    </div>
+  </form>
+
+  <!-- ── MULTIMEDIA ───────────────────────────────────────── -->
+  <form id="form-multimedia" class="form-panel" onsubmit="submitForm(event,'multimedia')">
+    <div class="form-section">
+      <h3>Canal / Podcast / Newsletter</h3>
+      <div class="field">
+        <label>Título <span class="req">*</span></label>
+        <input type="text" name="titulo" maxlength="150" placeholder="Nombre del canal, podcast o newsletter" required>
+        <div class="char-counter">0/150</div>
+      </div>
+      <div class="field">
+        <label>Tipo <span class="req">*</span></label>
+        <select name="tipo" required>
+          <option value="">— Selecciona —</option>
+          <option>YouTube</option>
+          <option>Podcast</option>
+          <option>Newsletter</option>
+          <option>Blog</option>
+          <option>Livestream</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Descripción breve <span class="req">*</span></label>
+        <textarea name="descripcion" rows="4" maxlength="800" placeholder="¿De qué trata? ¿Con qué frecuencia publica?" required></textarea>
+        <div class="char-counter">0/800</div>
+      </div>
+      <div class="field">
+        <label>Link principal <span class="req">*</span></label>
+        <input type="url" name="link" placeholder="https://youtube.com/..." required>
+      </div>
+      <div class="field">
+        <label>Autor / Responsable</label>
+        <input type="text" name="autor" placeholder="Nombre o alias del creador">
+      </div>
+      <div class="field">
+        <label>Idioma principal</label>
+        <select name="idioma">
+          <option value="">— Selecciona —</option>
+          <option>Español</option>
+          <option>English</option>
+          <option>Català</option>
+          <option>Otros</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Frecuencia de publicación</label>
+        <input type="text" name="frecuencia" placeholder="Semanal, mensual, irregular...">
+      </div>
+      <div class="field">
+        <label>¿Es gratuito?</label>
+        <select name="gratuito">
+          <option value="">— Selecciona —</option>
+          <option value="Sí">Sí, gratuito</option>
+          <option value="No">No, de pago</option>
+          <option value="Freemium">Freemium</option>
+        </select>
+      </div>
+    </div>
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR MULTIMEDIA →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-multimedia" class="status-msg"></div>
+    </div>
+  </form>
+
+  <!-- ── HERRAMIENTA ──────────────────────────────────────── -->
+  <form id="form-herramienta" class="form-panel" onsubmit="submitForm(event,'herramienta')">
+    <div class="form-section">
+      <h3>Herramienta / Tool</h3>
+      <div class="field">
+        <label>Nombre <span class="req">*</span></label>
+        <input type="text" name="nombre" maxlength="100" placeholder="Nombre de la herramienta o servicio" required>
+        <div class="char-counter">0/100</div>
+      </div>
+      <div class="field">
+        <label>Categoría <span class="req">*</span></label>
+        <select name="tipo" required>
+          <option value="">— Selecciona categoría —</option>
+          <optgroup label="─ Trading &amp; Exchange ─">
+            <option>Exchange</option>
+            <option>Aggregator</option>
+            <option>P2P</option>
+            <option>Indie exchange</option>
+            <option>DEX</option>
+            <option>ATM</option>
+          </optgroup>
+          <optgroup label="─ Compras &amp; Servicios ─">
+            <option>Marketplace</option>
+            <option>Shopping</option>
+            <option>Cards</option>
+            <option>Gift cards</option>
+          </optgroup>
+          <optgroup label="─ Privacidad &amp; Seguridad ─">
+            <option>Tool</option>
+            <option>OS &amp; Live USB</option>
+            <option>Encryption</option>
+            <option>Browser</option>
+            <option>Password Manager</option>
+            <option>VPN</option>
+            <option>Proxy store</option>
+            <option>Utilities</option>
+          </optgroup>
+          <optgroup label="─ Comunicación ─">
+            <option>Messaging</option>
+            <option>Email</option>
+            <option>Email alias</option>
+            <option>SMS</option>
+          </optgroup>
+          <optgroup label="─ Infraestructura ─">
+            <option>Hosting</option>
+            <option>VPS</option>
+            <option>Domains</option>
+            <option>e-SIM</option>
+            <option>AI</option>
+          </optgroup>
+          <optgroup label="─ Otros ─">
+            <option>Other services</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Descripción breve <span class="req">*</span></label>
+        <textarea name="descripcion" rows="4" maxlength="500" placeholder="¿Para qué sirve? ¿Qué la diferencia de otras? ¿Acepta Bitcoin/Monero?" required></textarea>
+        <div class="char-counter">0/500</div>
+      </div>
+      <div class="field">
+        <label>Link oficial <span class="req">*</span></label>
+        <input type="url" name="link" placeholder="https://..." required>
+      </div>
+      <div class="field">
+        <label>Plataforma</label>
+        <select name="plataforma">
+          <option value="">— Selecciona —</option>
+          <option>Web</option>
+          <option>Mobile</option>
+          <option>Desktop</option>
+          <option>CLI</option>
+          <option>Multi-plataforma</option>
+          <option>Browser Extension</option>
+          <option>Live USB</option>
+          <option>Desktop · Mobile</option>
+          <option>Desktop · CLI</option>
+          <option>Self-hosted</option>
+          <option>VM</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>¿Es open source?</label>
+        <select name="open_source">
+          <option value="">— Selecciona —</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+          <option value="Parcialmente">Parcialmente</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Logo (URL directa a imagen)</label>
+        <input type="url" name="logo" placeholder="https://ejemplo.com/favicon.ico">
+        <div class="field-hint">URL al logo o favicon oficial. Se mostrará en la tarjeta (36×36 px).</div>
+      </div>
+    </div>
+    <div class="hp-field" aria-hidden="true">
+      <input type="text" name="_hp" tabindex="-1" autocomplete="off">
+    </div>
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">ENVIAR HERRAMIENTA →</button>
+      <p class="notice">Tu entrada será revisada antes de publicarse. No necesitas cuenta GitHub.</p>
+      <div id="status-herramienta" class="status-msg"></div>
+    </div>
+  </form>
+
+</main>
+
+<script>
+  const SUBMIT_URL = '/api/submit';
+  const BTN_LABELS = {
+    nodo:        'ENVIAR NODO →',
+    evento:      'ENVIAR EVENTO →',
+    aprendizaje: 'ENVIAR RECURSO →',
+    comunidad:   'ENVIAR COMUNIDAD →',
+    anuncio:     'ENVIAR ANUNCIO →',
+    multimedia:  'ENVIAR MULTIMEDIA →',
+    herramienta: 'ENVIAR HERRAMIENTA →',
+  };
+
+  // ── Utilities ────────────────────────────────────────────────────────────────
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function updateCounter(el) {
+    const counter = el.parentElement.querySelector('.char-counter');
+    if (!counter) return;
+    const max = parseInt(el.getAttribute('maxlength') || '0', 10);
+    const len = el.value.length;
+    counter.textContent = `${len}/${max}`;
+    counter.classList.toggle('over', len >= Math.floor(max * 0.9));
+  }
+
+  // ── Tab switching ────────────────────────────────────────────────────────────
+  function switchType(type) {
+    document.querySelectorAll('.type-tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.type === type));
+    document.querySelectorAll('.form-panel').forEach(p =>
+      p.classList.toggle('active', p.id === `form-${type}`));
+    restoreDraft(type);
+  }
+
+  // ── Draft persistence (sessionStorage) ───────────────────────────────────────
+  function saveDraft(form, type) {
+    const data = {};
+    new FormData(form).forEach((val, key) => {
+      if (key === '_hp') return;
+      data[key] = data[key] !== undefined ? [].concat(data[key], val) : val;
+    });
+    try { sessionStorage.setItem(`plazap2p-draft-${type}`, JSON.stringify(data)); } catch {}
+  }
+
+  function restoreDraft(type) {
+    try {
+      const raw = sessionStorage.getItem(`plazap2p-draft-${type}`);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      const form = document.getElementById(`form-${type}`);
+      if (!form) return;
+      Object.entries(data).forEach(([key, val]) => {
+        form.querySelectorAll(`[name="${CSS.escape(key)}"]`).forEach(el => {
+          if (el.type === 'checkbox') {
+            el.checked = [].concat(val).includes(el.value);
+          } else {
+            el.value = val;
+            updateCounter(el);
+          }
+        });
+      });
+    } catch {}
+  }
+
+  function clearDraft(type) {
+    try { sessionStorage.removeItem(`plazap2p-draft-${type}`); } catch {}
+  }
+
+  // ── Form submission ──────────────────────────────────────────────────────────
+  async function submitForm(e, type) {
+    e.preventDefault();
+    const form   = e.target;
+    const btn    = form.querySelector('.btn-submit');
+    const status = document.getElementById(`status-${type}`);
+
+    // Honeypot — silent discard if bot filled the hidden field
+    if (form.querySelector('[name="_hp"]')?.value) return;
+
+    // Collect all form values
+    const data = {};
+    new FormData(form).forEach((val, key) => {
+      if (key === '_hp') return;
+      data[key] = data[key] !== undefined ? [].concat(data[key], val) : val;
+    });
+
+    // Ensure checkbox groups exist as arrays (even when all unchecked)
+    const seenGroups = new Set();
+    form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      if (seenGroups.has(cb.name)) return;
+      seenGroups.add(cb.name);
+      if (data[cb.name] === undefined) data[cb.name] = [];
+      else if (!Array.isArray(data[cb.name])) data[cb.name] = [data[cb.name]];
+    });
+
+    // Client-side: require at least one crypto option for nodo
+    if (type === 'nodo' && (!data.acepta_crypto || data.acepta_crypto.length === 0)) {
+      status.className = 'status-msg error';
+      status.innerHTML = '❌ <strong>Selecciona al menos una opción en "Acepta / Paga en".</strong>';
+      status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    status.className = 'status-msg'; // hide while in-flight (CSS: display:none)
+
+    try {
+      const res  = await fetch(SUBMIT_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ type, data }),
+      });
+      const json = await res.json();
+
+      if (res.ok && json.ok) {
+        const issueLink = json.issue_url
+          ? ` <a href="${json.issue_url}" target="_blank" rel="noopener">Ver issue →</a>`
+          : '';
+        status.className = 'status-msg success';
+        status.innerHTML =
+          `✅ <strong>Enviado correctamente.</strong><br>` +
+          `Tu entrada está pendiente de revisión. El mantenedor la publicará en breve.${issueLink}`;
+        form.reset();
+        clearDraft(type);
+        // Reset counters after form.reset()
+        form.querySelectorAll('textarea[maxlength], input[maxlength]').forEach(updateCounter);
+      } else {
+        throw new Error(json.error || 'Error desconocido');
+      }
+    } catch (err) {
+      status.className = 'status-msg error';
+      status.innerHTML =
+        `❌ <strong>Error al enviar:</strong> ${escapeHTML(err.message)}<br>` +
+        `Inténtalo de nuevo o abre el issue directamente en GitHub.`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = BTN_LABELS[type] || 'ENVIAR →';
+      status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wire up character counters
+    document.querySelectorAll('textarea[maxlength], input[maxlength]').forEach(el => {
+      el.addEventListener('input', () => updateCounter(el));
+      updateCounter(el);
+    });
+
+    // Wire up draft saving on every input/change in any form panel
+    document.querySelectorAll('.form-panel').forEach(panel => {
+      const type = panel.id.replace('form-', '');
+      panel.addEventListener('input',  () => saveDraft(panel, type));
+      panel.addEventListener('change', () => saveDraft(panel, type));
+    });
+
+    // Restore draft for the initially active tab
+    restoreDraft('nodo');
+  });
+</script>
+
+</body>
+</html>
