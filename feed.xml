@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>PlazaP2P — Directorio Bitcoin España</title>
+    <link>https://plazap2p.pages.dev</link>
+    <description>Últimas entradas del directorio P2P de economía circular con Bitcoin</description>
+    <language>es</language>
+    <lastBuildDate>Wed, 22 Apr 2026 19:13:00 GMT</lastBuildDate>
+    <item>
+      <title>Bisq</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Exchange P2P descentralizado para comprar y vender Bitcoin con fiat o cripto sin KYC. Funciona sobre una red peer-to-peer y Tor. El estándar de oro para privacidad en intercambios.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>RoboSats</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Exchange P2P sobre Lightning Network con avatares desechables y acceso por Tor. Sin registro, sin cuenta, sin datos personales. Intercambios en minutos con mínima huella digital.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Haveno</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Fork de Bisq construido sobre Monero y Tor. Exchange P2P no-custodial con máxima privacidad. Permite intercambiar BTC, XMR y fiat sin ningún dato personal requerido.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Boltz</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Servicio de atomic swaps no-custodial entre Bitcoin on-chain, Lightning Network y Liquid. Sin cuentas, sin KYC, swaps instantáneos. Ideal para mover liquidez entre capas.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Vexl</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>App móvil para intercambiar Bitcoin P2P a través de tu red de contactos y amigos. Sin datos personales, sin KYC, intercambios basados en confianza de red social. Open source.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Sparrow Wallet</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Wallet Bitcoin de escritorio enfocada en privacidad y control total. Soporta multisig, coinjoin (Whirlpool/JoinMarket), PSBT, hardware wallets y conexión a nodo propio.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Phoenix Wallet</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Wallet Lightning mobile no-custodial de ACINQ. Gestión automática de canales, pagos instantáneos y splicing. La forma más sencilla de usar Lightning con soberanía total.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Electrum</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>La wallet Bitcoin más veterana y confiable. Ligera, rápida, compatible con hardware wallets y multisig. Disponible para escritorio y Android. Referencia desde 2011.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Bitcoin Core</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>La implementación de referencia del protocolo Bitcoin. Corre un nodo completo, valida la cadena de bloques desde el génesis y contribuye a la descentralización de la red.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Umbrel</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Sistema operativo personal para correr tu propio nodo Bitcoin, Lightning y aplicaciones soberanas desde casa. Instalación en minutos sobre una Raspberry Pi o mini PC.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>BTCPay Server</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Procesador de pagos Bitcoin self-hosted gratuito y open source. Acepta pagos on-chain y Lightning sin comisiones ni intermediarios. Estándar para negocios soberanos.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Mempool.space</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>El explorador de bloques y mempool más completo. Monitorea transacciones, fees en tiempo real, visualización del pool de mempool y estadísticas de la red. Código abierto y self-hosteable.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Mullvad VPN</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>VPN de máxima privacidad: sin cuenta, sin email, pago en Bitcoin/Monero o efectivo. Sin logs, código abierto y auditado. Uno de los pocos servicios que no sabe quién eres.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>SimpleLogin</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Servicio open source de alias de email. Crea direcciones desechables para proteger tu identidad online. Acepta Monero como pago. Propiedad de Proton y auditable.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>addy.io</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Servicio gratuito y open source de alias de email. Hasta 200 aliases sin cuenta premium, soporte para dominios personalizados y cifrado PGP opcional. Alternativa a SimpleLogin.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Bitrefill</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Compra tarjetas regalo y recarga móviles con Bitcoin y Lightning Network. Más de 5.000 productos en 170+ países sin KYC. La forma más fácil de convertir Bitcoin en valor cotidiano.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Freedomia</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Tarjeta Visa recargable con Bitcoin y Lightning. Sin cuenta bancaria ni datos financieros. Válida en cualquier comercio que acepte Visa a nivel mundial.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>IVPN</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>VPN con política estricta de no-logs, código abierto y auditado de forma independiente. Sin cuenta real: usa pseudónimos, acepta Bitcoin y Monero. Opciones multi-hop y WireGuard.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Proton VPN</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>VPN de Proton con política no-logs, clientes 100% open source y killswitch. Plan gratuito disponible. Soporta acceso a servidores Tor y configuraciones multi-hop para privacidad máxima.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Tails OS</title>
+      <link>https://plazap2p.pages.dev/?tab=herramientas</link>
+      <description>Distro Linux live diseñada para anonimato total vía Tor. Arranca desde USB, no deja rastros en el hardware y toda la actividad se borra al apagar. Estándar de oro para periodistas y activistas.</description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
