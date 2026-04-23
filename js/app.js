@@ -104,7 +104,9 @@ async function init() {
   setupTabs();
   setupFilters();
   setupHeroSearch();
+  const savedSearch = location.search;
   renderAll();
+  history.replaceState(null, '', location.pathname + savedSearch);
   updateCounts();
   updateStats();
   restoreFilterState();
