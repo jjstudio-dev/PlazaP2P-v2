@@ -452,14 +452,31 @@ const CITY_COORDS = {
 let _mapInstance = null;
 let _mapMarkers  = [];
 
+// Países activos en el directorio — añadir más según crezca la red
+const COUNTRY_MARKERS = [
+  { pais: 'España', coords: [40.2, -3.5], flag: '🇪🇸' },
+];
+
 function normalizeCity(s) {
   return (s || '').toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+function normalizePais(s) {
+  return (s || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function renderMapa() {
-  if (typeof L === 'undefined') return;
   const container = document.getElementById('mapa-leaflet');
+  const noMapaMsg = document.getElementById('mapa-sin-nodos');
+
+  if (typeof L === 'undefined') {
+    if (container) container.innerHTML = emptyState('Mapa no disponible. Recarga la página.');
+    pushFilterState('mapa', {});
+    return;
+  }
+
   if (!container) return;
 
   if (!_mapInstance) {
@@ -473,6 +490,26 @@ function renderMapa() {
   _mapMarkers.forEach(m => m.remove());
   _mapMarkers = [];
 
+  // Contar nodos por país (normalizado)
+  const nodosPorPais = {};
+  state.nodos.forEach(n => {
+    const key = normalizePais(n.pais);
+    nodosPorPais[key] = (nodosPorPais[key] || 0) + 1;
+  });
+
+  // Marcadores fijos por país con conteo
+  COUNTRY_MARKERS.forEach(({ pais, coords, flag }) => {
+    const key = normalizePais(pais);
+    const count = nodosPorPais[key] || 0;
+    const estado = count === 0
+      ? '<br><small style="color:#888">Próximamente — ¡sé el primero!</small>'
+      : `<br><small>${count} nodo${count !== 1 ? 's' : ''} registrado${count !== 1 ? 's' : ''}</small>`;
+    const popup = `${flag} <strong>${escapeHTML(pais)}</strong>${estado}`;
+    const marker = L.marker(coords).addTo(_mapInstance).bindPopup(popup);
+    _mapMarkers.push(marker);
+  });
+
+  // Marcadores individuales de ciudad para cada nodo
   state.nodos.forEach(n => {
     const key = normalizeCity(n.ciudad);
     const coords = CITY_COORDS[key];
@@ -482,7 +519,10 @@ function renderMapa() {
     _mapMarkers.push(marker);
   });
 
+  if (noMapaMsg) noMapaMsg.style.display = 'none';
+
   setTimeout(() => _mapInstance.invalidateSize(), 150);
+  pushFilterState('mapa', {});
 }
 
 // ── Recién añadido strip ───────────────────────────────────
