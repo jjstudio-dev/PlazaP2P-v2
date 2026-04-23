@@ -1,8 +1,8 @@
 ﻿blank_issues_enabled: false
 contact_links:
   - name: "🌐 Ver el directorio en vivo"
-    url: YOUR_SITE_URL
+    url: https://plazap2pv2.refugio.workers.dev
     about: "Visita PlazaP2P para explorar el directorio antes de añadir tu entrada"
   - name: "📖 FAQ y Aviso Legal"
-    url: YOUR_SITE_URL/#faq
+    url: https://plazap2pv2.refugio.workers.dev/#faq
     about: "Lee las normas de uso y exclusión de responsabilidad antes de enviar"

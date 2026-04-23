@@ -1,27 +1,25 @@
 {
-  // Cloudflare Pages project configuration
-  // Deploy with: npx wrangler pages deploy .
-  "name": "plazap2pv2",
-  "pages_build_output_dir": ".",
-  "compatibility_date": "2024-09-23",
-
-  // KV namespace for IP-based rate limiting (max 10 submissions/IP/hour)
-  // Setup:
-  //   npx wrangler kv namespace create RATE_LIMIT_KV
-  //   npx wrangler kv namespace create RATE_LIMIT_KV --preview
-  // Then replace the IDs below with the output from those commands.
-  "kv_namespaces": [
-    {
-      "binding": "RATE_LIMIT_KV",
-      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID",
-      "preview_id": "REPLACE_WITH_YOUR_PREVIEW_KV_NAMESPACE_ID"
-    }
-  ],
-
-  // Secrets — set via Cloudflare dashboard or:
-  //   npx wrangler pages secret put GITHUB_TOKEN
-  //   npx wrangler pages secret put GITHUB_REPO
-  //
-  // GITHUB_TOKEN: fine-grained PAT — Issues: Read & Write on this repo only
-  // GITHUB_REPO:  "owner/repo" e.g. "VoidHashh/plazap2p-v2"
+	// Cloudflare Pages project configuration
+	// Deploy with: npx wrangler pages deploy .
+	"name": "plazap2pv2",
+	"pages_build_output_dir": ".",
+	"compatibility_date": "2024-09-23",
+	// KV namespace for IP-based rate limiting (max 10 submissions/IP/hour)
+	// Setup:
+	//   npx wrangler kv namespace create RATE_LIMIT_KV
+	//   npx wrangler kv namespace create RATE_LIMIT_KV --preview
+	// Then replace the IDs below with the output from those commands.
+	"kv_namespaces": [
+		{
+			"binding": "RATE_LIMIT_KV",
+			"id": "49fd41a66ac94947b72b9adc760fac79",
+			"preview_id": "49fd41a66ac94947b72b9adc760fac79"
+		}
+	],
+	// Secrets — set via Cloudflare dashboard or:
+	//   npx wrangler pages secret put GITHUB_TOKEN
+	//   npx wrangler pages secret put GITHUB_REPO
+	//
+	// GITHUB_TOKEN: fine-grained PAT — Issues: Read & Write on this repo only
+	// GITHUB_REPO:  "owner/repo" e.g. "VoidHashh/plazap2p-v2"
 }

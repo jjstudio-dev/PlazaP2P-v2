@@ -4,7 +4,7 @@
 
 > Páginas amarillas descentralizadas para personas y negocios que practican economía circular con Bitcoin. Sin intermediarios. Sin comisiones. 100% open source.
 
-**[Ver demo en vivo →](YOUR_SITE_URL)**
+**[Ver demo en vivo →](https://plazap2pv2.refugio.workers.dev)**
 
 ---
 
