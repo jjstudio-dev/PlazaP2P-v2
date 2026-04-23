@@ -1,9 +1,9 @@
 {
-	// Cloudflare Pages project configuration
-	// Deploy with: npx wrangler pages deploy .
 	"name": "plazap2pv2",
-	"pages_build_output_dir": ".",
 	"compatibility_date": "2024-09-23",
+	"assets": {
+		"directory": "."
+	},
 	// KV namespace for IP-based rate limiting (max 10 submissions/IP/hour)
 	// Setup:
 	//   npx wrangler kv namespace create RATE_LIMIT_KV
