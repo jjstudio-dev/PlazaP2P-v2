@@ -283,9 +283,7 @@ function updateStats() {
   const el = id => document.getElementById(id);
   if (el('stat-nodos'))    animateCountUp(el('stat-nodos'),    state.nodos.length);
   if (el('stat-eventos'))  animateCountUp(el('stat-eventos'),  state.eventos.length);
-  if (el('stat-recursos')) animateCountUp(el('stat-recursos'), state.guias.length);
-  // In premium version stat-paises shows communities count
-  if (el('stat-paises'))   animateCountUp(el('stat-paises'),   state.comunidades.length);
+if (el('stat-paises'))   animateCountUp(el('stat-paises'),   state.comunidades.length);
 }
 
 function animateCountUp(el, target, duration = 700) {
