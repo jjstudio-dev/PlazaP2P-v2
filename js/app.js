@@ -83,6 +83,8 @@ const DATA_FILES = {
   nostr:        'nostr.json',
 };
 
+let _initDone = false;
+
 let state = {
   nodos:          [],
   eventos:        [],
@@ -104,13 +106,12 @@ async function init() {
   setupTabs();
   setupFilters();
   setupHeroSearch();
-  const savedSearch = location.search;
-  renderAll();
-  history.replaceState(null, '', location.pathname + savedSearch);
+  renderAll();       // URL updates bloqueadas durante init (_initDone = false)
   updateCounts();
   updateStats();
-  restoreFilterState();
   applyLang(_currentLang);
+  _initDone = true;  // habilitar URL updates
+  restoreFilterState(); // lee la URL original y activa la sección correcta
 }
 
 function scrollToNav() {
@@ -153,6 +154,7 @@ async function loadAllData() {
 
 // ── URL filter state ───────────────────────────────────────
 function pushFilterState(tabName, filters) {
+  if (!_initDone) return;
   const params = new URLSearchParams();
   params.set('tab', tabName);
   Object.entries(filters).forEach(([k, v]) => {
@@ -521,7 +523,7 @@ function renderMapa() {
 
   if (noMapaMsg) noMapaMsg.style.display = 'none';
 
-  setTimeout(() => _mapInstance.invalidateSize(), 150);
+  setTimeout(() => _mapInstance.invalidateSize(), 300);
   pushFilterState('mapa', {});
 }
 
